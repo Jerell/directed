@@ -6,25 +6,25 @@ export default function ComponentsPage() {
     <div className="w-full h-full flex flex-col gap-1">
       <Button>Button</Button>
       <Button disabled>Button</Button>
-      <Button variant="destructive">Button</Button>
+      <Button variant="destructive">Destructive</Button>
       <Button variant="destructive" disabled>
-        Button
+        Destructive Disabled
       </Button>
-      <Button variant="outline">Button</Button>
+      <Button variant="outline">Outline</Button>
       <Button variant="outline" disabled>
-        Button
+        Outline Disabled
       </Button>
-      <Button variant="secondary">Button</Button>
+      <Button variant="secondary">Secondary</Button>
       <Button variant="secondary" disabled>
-        Button
+        Secondary Disabled
       </Button>
-      <Button variant="ghost">Button</Button>
+      <Button variant="ghost">Ghost</Button>
       <Button variant="ghost" disabled>
-        Button
+        Ghost Disabled
       </Button>
-      <Button variant="link">Button</Button>
+      <Button variant="link">Link</Button>
       <Button variant="link" disabled>
-        Button
+        Link Disabled
       </Button>
       <div className="text-white">
         <ButtonGroupDemo />
