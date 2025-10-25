@@ -1,8 +1,9 @@
 export default function Home() {
   return (
-    <div className="flex min-h-screen items-center justify-center bg-brand-gradient-7 font-sans">
-      <main className="flex min-h-screen w-full max-w-3xl flex-col items-center justify-between py-32 px-16 bg-brand-gradient-8 sm:items-start">
-        <p>Hello World</p>
+    <div className="flex h-screen p-1 font-mono">
+      <main className="flex flex-col min-h-full w-full border border-brand-blue bg-brand-teal p-1 text-brand-purple-bright">
+        <h1 className="text-white text-xl font-bold">Directed</h1>
+        <p className="">Build a modular network as a directed graph</p>
       </main>
     </div>
   );

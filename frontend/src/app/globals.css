@@ -16,7 +16,7 @@
   --brand-teal-deep: #052022;
   --brand-teal: #073440;
 
-  --background: var(--brand-rose-deep);
+  --background: var(--brand-teal-deep);
   --foreground: var(--brand-black);
 }
 
