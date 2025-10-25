@@ -1,0 +1,123 @@
+.branchNode {
+  .corner {
+    --border-thickness: 1px;
+    --outline-thickness: 0.5px;
+    border: var(--border-thickness) solid var(--secondary);
+    height: 10px;
+    width: 10px;
+    position: absolute;
+
+    &::after {
+      content: "";
+      position: absolute;
+      pointer-events: none;
+      width: 10px;
+      height: 10px;
+      border: var(--outline-thickness) solid var(--brand-teal);
+    }
+
+    &[data-position="top-left"] {
+      border-right: none;
+      border-bottom: none;
+      top: 0;
+      left: 0;
+    }
+    &[data-position="top-left"]::after {
+      top: calc(-1 * var(--border-thickness) - var(--outline-thickness));
+      left: calc(-1 * var(--border-thickness) - var(--outline-thickness));
+      border-right: none;
+      border-bottom: none;
+    }
+    &[data-position="top-right"] {
+      border-left: none;
+      border-bottom: none;
+      top: 0;
+      right: 0;
+    }
+    &[data-position="top-right"]::after {
+      top: calc(-1 * var(--border-thickness) - var(--outline-thickness));
+      right: calc(-1 * var(--border-thickness) - var(--outline-thickness));
+      border-left: none;
+      border-bottom: none;
+    }
+    &[data-position="bottom-left"] {
+      border-right: none;
+      border-top: none;
+      bottom: 0;
+      left: 0;
+    }
+    &[data-position="bottom-left"]::after {
+      bottom: calc(-1 * var(--border-thickness) - var(--outline-thickness));
+      left: calc(-1 * var(--border-thickness) - var(--outline-thickness));
+      border-right: none;
+      border-top: none;
+    }
+    &[data-position="bottom-right"] {
+      border-left: none;
+      border-top: none;
+      bottom: 0;
+      right: 0;
+    }
+    &[data-position="bottom-right"]::after {
+      bottom: calc(-1 * var(--border-thickness) - var(--outline-thickness));
+      right: calc(-1 * var(--border-thickness) - var(--outline-thickness));
+      border-left: none;
+      border-top: none;
+    }
+  }
+}
+
+.branchHandle {
+  --pointer-size: 14px;
+  --edge-thickness: 1px;
+
+  &::after {
+    content: "";
+    position: absolute;
+    pointer-events: none;
+    width: var(--pointer-size);
+    height: var(--pointer-size);
+    box-sizing: border-box;
+    border: var(--edge-thickness) solid transparent;
+  }
+
+  /* placement by side of handle */
+  &[data-position="left"]::after {
+    left: calc(-1 * var(--pointer-size));
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  &[data-position="right"]::after {
+    right: calc(-1 * var(--pointer-size));
+    top: 50%;
+    transform: translateY(-50%) rotate(45deg);
+  }
+  &[data-position="top"]::after {
+    top: calc(-1 * var(--pointer-size));
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+  }
+  &[data-position="bottom"]::after {
+    bottom: calc(-1 * var(--pointer-size));
+    left: 50%;
+    transform: translateX(-50%) rotate(45deg);
+  }
+
+  /* direction decides which two edges are colored */
+  &[data-handle-point-direction="right"]::after {
+    border-top-color: var(--secondary);
+    border-right-color: var(--secondary);
+  }
+  &[data-handle-point-direction="left"]::after {
+    border-bottom-color: var(--secondary);
+    border-left-color: var(--secondary);
+  }
+  &[data-handle-point-direction="up"]::after {
+    border-top-color: var(--secondary);
+    border-left-color: var(--secondary);
+  }
+  &[data-handle-point-direction="down"]::after {
+    border-bottom-color: var(--secondary);
+    border-right-color: var(--secondary);
+  }
+}
