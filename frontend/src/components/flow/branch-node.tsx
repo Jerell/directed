@@ -82,11 +82,22 @@ function BlockSet({ blocks }: { blocks: BlockInfo }) {
 }
 
 function ModuleSequence({ blocks }: { blocks: BlockInfo[] }) {
+  const canExtend = useMemo(() => {
+    return !blocks.some((block) => block.kind === "sink");
+  }, [blocks]);
   return (
     <div className="flex flex-row gap-px items-end">
       {blocks.map((block, i) => (
         <BlockSet key={`${i}-${block.label}`} blocks={block} />
       ))}
+      {canExtend && (
+        <div className="flex flex-col gap-px">
+          <button className={cn("h-4 w-4", styles.block)} data-kind="extend">
+            +
+          </button>
+          <div className="h-4 w-4 flex items-center justify-center"></div>
+        </div>
+      )}
     </div>
   );
 }

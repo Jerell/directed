@@ -138,6 +138,10 @@
 }
 
 .block {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
   &[data-kind="source"] {
     background-color: var(--color-green-500);
   }
@@ -146,5 +150,15 @@
   }
   &[data-kind="sink"] {
     background-color: var(--brand-blue);
+  }
+  &[data-kind="extend"] {
+    background-color: oklch(from white l c h / 0.2);
+    color: white;
+    cursor: pointer;
+
+    &:hover {
+      background-color: var(--primary);
+      color: var(--primary-foreground);
+    }
   }
 }
