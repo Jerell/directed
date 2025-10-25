@@ -124,7 +124,7 @@ export const NodeSearch = forwardRef(function NodeSearch(
   return (
     <Command
       shouldFilter={false}
-      className="border border-brand-blue shadow-md md:min-w-[450px]"
+      className="border border-brand-blue md:min-w-[450px]"
     >
       <NodeSearchInternal
         ref={ref}
