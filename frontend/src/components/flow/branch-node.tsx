@@ -12,7 +12,7 @@ export type BranchNodeData = {
 
 export type BranchNodeType = Node<BranchNodeData, "branchNode">;
 
-export function BranchNode({ data }: NodeProps<BranchNodeType>) {
+export function BranchNode({ data, selected }: NodeProps<BranchNodeType>) {
   const countBlocksByKind = useMemo(() => {
     return data.blocks.reduce((acc, block) => {
       acc[block.kind] = (acc[block.kind] || 0) + block.length;
@@ -28,7 +28,13 @@ export function BranchNode({ data }: NodeProps<BranchNodeType>) {
   }, [data.blocks]);
 
   return (
-    <div className={cn(styles.branchNode, "hover:bg-secondary/10")}>
+    <div
+      className={cn(
+        styles.branchNode,
+        "hover:bg-secondary/10",
+        selected && "bg-brand-purple-bright/10"
+      )}
+    >
       <div className={cn(styles.corner)} data-position="top-left" />
       <div className={cn(styles.corner)} data-position="top-right" />
       <div className={cn(styles.corner)} data-position="bottom-left" />

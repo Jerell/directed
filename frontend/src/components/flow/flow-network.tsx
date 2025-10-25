@@ -25,6 +25,7 @@ import {
   writeEdgesToCollection,
 } from "@/lib/collections/flow";
 import { NodeSearch } from "../node-search";
+import { StatusRow } from "./status-row";
 
 const nodeTypes = {
   labeledGroupNode: GroupNode,
@@ -75,7 +76,11 @@ export default function FlowNetwork() {
         <MiniMap position="bottom-left" />
         <Controls position="top-left" />
         <Background />
-        <Panel className="flex gap-1 p-px text-foreground" position="top-right">
+        <Panel
+          className="flex flex-col gap-1 p-px text-foreground items-end"
+          position="top-right"
+        >
+          <StatusRow />
           <NodeSearch />
         </Panel>
       </ReactFlow>

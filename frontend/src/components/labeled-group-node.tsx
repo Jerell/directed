@@ -41,30 +41,14 @@ export type GroupNodeProps = NodeProps<LabeledGroupNode> & {
 /* GROUP NODE -------------------------------------------------------------- */
 
 export const GroupNode = forwardRef<HTMLDivElement, GroupNodeProps>(
-  ({ data, position }, ref) => {
-    // const getLabelClassName = (position?: PanelPosition) => {
-    //   switch (position) {
-    //     case "top-left":
-    //       return "rounded-br-sm";
-    //     case "top-center":
-    //       return "rounded-b-sm";
-    //     case "top-right":
-    //       return "rounded-bl-sm";
-    //     case "bottom-left":
-    //       return "rounded-tr-sm";
-    //     case "bottom-right":
-    //       return "rounded-tl-sm";
-    //     case "bottom-center":
-    //       return "rounded-t-sm";
-    //     default:
-    //       return "rounded-br-sm";
-    //   }
-    // };
-
+  ({ data, position, selected }, ref) => {
     return (
       <BaseNode
         ref={ref}
-        className="h-full overflow-hidden bg-opacity-50 p-0 border-secondary"
+        className={cn(
+          "h-full overflow-hidden bg-opacity-50 p-0 border-secondary",
+          selected && "bg-brand-purple-bright/10"
+        )}
       >
         <Panel className={cn("m-0 p-0")} position={position}>
           {data.label && <GroupNodeLabel>{data.label}</GroupNodeLabel>}
