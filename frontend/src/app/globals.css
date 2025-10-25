@@ -140,7 +140,7 @@
 .react-flow {
   --xy-edge-stroke-default: var(--brand-purple);
   --xy-edge-stroke-width-default: 1;
-  --xy-edge-stroke-selected-default: #555;
+  --xy-edge-stroke-selected-default: var(--secondary);
 
   --xy-connectionline-stroke-default: var(--brand-purple);
   --xy-connectionline-stroke-width-default: 1;

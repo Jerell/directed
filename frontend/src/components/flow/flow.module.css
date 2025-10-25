@@ -72,6 +72,9 @@
   --edge-thickness: 1.5px;
   --pointer-rotation: 45deg; /* default points to the right */
 
+  border-color: var(--brand-purple);
+  background-color: var(--brand-purple);
+
   &::after {
     content: "";
     position: absolute;
@@ -81,8 +84,8 @@
     box-sizing: border-box;
     border: var(--edge-thickness) solid transparent;
     /* Always color the same two sides; rotate for direction */
-    border-top-color: var(--brand-purple);
-    border-right-color: var(--brand-purple);
+    border-top-color: var(--brand-purple-bright);
+    border-right-color: var(--brand-purple-bright);
   }
 
   &[data-position="left"]::after {
@@ -131,5 +134,17 @@
   }
   &[data-position="bottom"][data-handle-point-direction="down"]::after {
     transform: translate(-50%, -50%) rotate(var(--pointer-rotation));
+  }
+}
+
+.block {
+  &[data-kind="source"] {
+    background-color: var(--color-green-500);
+  }
+  &[data-kind="transform"] {
+    background-color: var(--secondary);
+  }
+  &[data-kind="sink"] {
+    background-color: var(--brand-blue);
   }
 }
