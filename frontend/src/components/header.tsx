@@ -3,7 +3,16 @@
 import { HomeIcon } from "lucide-react";
 import { Button } from "./ui/button";
 import { ButtonGroup } from "./ui/button-group";
-import { resetFlowCollectionsToInitial } from "@/lib/collections/flow";
+import { resetFlowToPreset } from "@/lib/collections/flow";
+import { flowPresets } from "@/lib/collections/flow-network-presets";
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuGroup,
+  DropdownMenuItem,
+  DropdownMenuSeparator,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 export function Header() {
   return (
@@ -17,14 +26,29 @@ export function Header() {
         <ButtonGroup>
           <Button variant="outline">New</Button>
           <Button variant="outline">Open</Button>
-          <Button
-            variant="outline"
-            onClick={async () => {
-              await resetFlowCollectionsToInitial();
-            }}
-          >
-            Preset 1
-          </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline">Presets</Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="start" className="w-52">
+              <DropdownMenuGroup>
+                {flowPresets.map((preset) => (
+                  <DropdownMenuItem
+                    key={preset.id}
+                    onClick={async () => {
+                      await resetFlowToPreset(preset);
+                    }}
+                  >
+                    {preset.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuGroup>
+              <DropdownMenuSeparator />
+              <DropdownMenuGroup>
+                <DropdownMenuItem disabled>Manage presets…</DropdownMenuItem>
+              </DropdownMenuGroup>
+            </DropdownMenuContent>
+          </DropdownMenu>
         </ButtonGroup>
       </div>
       <h1 className="text-2xl font-bold mr-1">Directed</h1>
