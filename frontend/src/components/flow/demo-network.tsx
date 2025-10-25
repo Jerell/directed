@@ -83,8 +83,8 @@ export default function App() {
         onConnect={onConnect}
         fitView
       >
-        <MiniMap position="top-right" />
-        <Controls position="bottom-right" />
+        <MiniMap position="bottom-left" />
+        <Controls position="top-right" />
         <Background />
       </ReactFlow>
     </div>
