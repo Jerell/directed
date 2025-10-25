@@ -149,7 +149,7 @@
     background-color: var(--secondary);
   }
   &[data-kind="sink"] {
-    background-color: var(--brand-blue);
+    background-color: var(--brand-maroon);
   }
   &[data-kind="extend"] {
     background-color: oklch(from white l c h / 0.2);
