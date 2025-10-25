@@ -81,6 +81,12 @@ function InsertButton({
   kind: BlockInfo["kind"];
   position: "before" | "after";
 }) {
+  if (kind === "source" && position === "before") {
+    return null;
+  }
+  if (kind === "sink" && position === "after") {
+    return null;
+  }
   return (
     <button
       className={cn(
