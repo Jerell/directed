@@ -145,7 +145,7 @@
   --xy-connectionline-stroke-default: var(--brand-purple);
   --xy-connectionline-stroke-width-default: 1;
 
-  --xy-attribution-background-color-default: #ffffff80;
+  --xy-attribution-background-color-default: var(--brand-blue);
 
   --xy-minimap-background-color-default: var(--brand-teal);
   --xy-minimap-mask-background-color-default: var(--brand-teal-deep);
