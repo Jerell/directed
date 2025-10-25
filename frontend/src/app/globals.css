@@ -1,22 +1,61 @@
 @import "tailwindcss";
 
 :root {
-  --background: #ffffff;
-  --foreground: #171717;
+  --brand-blue: #085f95;
+  --brand-indigo: #363fae;
+  --brand-purple: #6539a7;
+  --brand-purple-bright: #8545a0;
+  --brand-violet: #99569b;
+  --brand-violet-soft: #a26495;
+  --brand-rose: #a16d8b;
+  --brand-rose-deep: #9d7379;
+  --brand-maroon: #704449;
+  --brand-brown: #452223;
+  --brand-brown-deep: #1b0806;
+  --brand-black: #010705;
+  --brand-teal-deep: #052022;
+  --brand-teal: #073440;
+
+  --background: var(--brand-rose-deep);
+  --foreground: var(--brand-black);
 }
 
 @theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
+
+  --color-brand-blue: var(--brand-blue);
+  --color-brand-indigo: var(--brand-indigo);
+  --color-brand-purple: var(--brand-purple);
+  --color-brand-purple-bright: var(--brand-purple-bright);
+  --color-brand-violet: var(--brand-violet);
+  --color-brand-violet-soft: var(--brand-violet-soft);
+  --color-brand-rose: var(--brand-rose);
+  --color-brand-rose-deep: var(--brand-rose-deep);
+  --color-brand-maroon: var(--brand-maroon);
+  --color-brand-brown: var(--brand-brown);
+  --color-brand-brown-deep: var(--brand-brown-deep);
+  --color-brand-black: var(--brand-black);
+  --color-brand-teal-deep: var(--brand-teal-deep);
+  --color-brand-teal: var(--brand-teal);
+
+  --color-brand-gradient-1: var(--brand-blue);
+  --color-brand-gradient-2: var(--brand-indigo);
+  --color-brand-gradient-3: var(--brand-purple);
+  --color-brand-gradient-4: var(--brand-purple-bright);
+  --color-brand-gradient-5: var(--brand-violet);
+  --color-brand-gradient-6: var(--brand-violet-soft);
+  --color-brand-gradient-7: var(--brand-rose);
+  --color-brand-gradient-8: var(--brand-rose-deep);
+  --color-brand-gradient-9: var(--brand-maroon);
+  --color-brand-gradient-10: var(--brand-brown);
+  --color-brand-gradient-11: var(--brand-brown-deep);
+  --color-brand-gradient-12: var(--brand-black);
+  --color-brand-gradient-13: var(--brand-teal-deep);
+  --color-brand-gradient-14: var(--brand-teal);
+
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
-}
-
-@media (prefers-color-scheme: dark) {
-  :root {
-    --background: #0a0a0a;
-    --foreground: #ededed;
-  }
 }
 
 body {
