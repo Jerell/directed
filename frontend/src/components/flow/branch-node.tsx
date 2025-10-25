@@ -62,16 +62,45 @@ type BlockInfo = {
   label: string;
 };
 
+function InsertButton({
+  kind,
+  position,
+}: {
+  kind: BlockInfo["kind"];
+  position: "before" | "after";
+}) {
+  return (
+    <button
+      className={cn(
+        position === "before" && "top-0 left-0",
+        position === "after" && "bottom-0 right-0",
+        "absolute h-full w-1/4 bg-brand-purple-bright group-hover:block hidden opacity-0 hover:opacity-100 cursor-pointer"
+      )}
+    ></button>
+  );
+}
+
+function BottomBlock({ kind }: { kind: BlockInfo["kind"] }) {
+  return (
+    <div className="relative h-4 w-4 group">
+      <InsertButton kind={kind} position="before" />
+      <div className={cn("h-4 w-4 ", styles.block)} data-kind={kind}></div>
+      <InsertButton kind={kind} position="after" />
+    </div>
+  );
+}
+
 function BlockSet({ blocks }: { blocks: BlockInfo }) {
   return (
     <div className="flex flex-col gap-px">
-      {Array.from({ length: blocks.length }, (_, index) => (
+      {Array.from({ length: blocks.length - 1 }, (_, index) => (
         <div
           key={index}
           className={cn("h-4 w-4 ", styles.block)}
           data-kind={blocks.kind}
         ></div>
       ))}
+      <BottomBlock kind={blocks.kind} />
       <div className="h-4 w-4 flex items-center justify-center">
         <p className="text-[0.45rem] text-primary-foreground text-center font-bold">
           {blocks.label[0]}
