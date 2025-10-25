@@ -174,6 +174,16 @@ const initialNodes = [
     },
     type: "branchNode",
   },
+  {
+    id: "n9",
+    position: { x: 1000, y: 80 },
+    data: {
+      id: "branch9",
+      label: "Branch 9",
+      blocks: [],
+    },
+    type: "branchNode",
+  },
 ] satisfies (
   | Node<{ label: string; id: string }, "labeledGroupNode">
   | BranchNodeType
