@@ -1,5 +1,10 @@
 import React, { forwardRef, type HTMLAttributes, type ReactNode } from "react";
-import { Panel, type NodeProps, type PanelPosition } from "@xyflow/react";
+import {
+  Panel,
+  type NodeProps,
+  type PanelPosition,
+  type Node,
+} from "@xyflow/react";
 
 import { BaseNode } from "@/components/base-node";
 import { cn } from "@/lib/utils";
@@ -27,17 +32,16 @@ export const GroupNodeLabel = forwardRef<HTMLDivElement, GroupNodeLabelProps>(
 
 GroupNodeLabel.displayName = "GroupNodeLabel";
 
-export type GroupNodeProps = Partial<NodeProps> & {
-  data: {
-    label: ReactNode;
-  };
+type LabeledGroupNode = Node<{ label: ReactNode }, "labeledGroupNode">;
+
+export type GroupNodeProps = NodeProps<LabeledGroupNode> & {
   position?: PanelPosition;
 };
 
 /* GROUP NODE -------------------------------------------------------------- */
 
 export const GroupNode = forwardRef<HTMLDivElement, GroupNodeProps>(
-  ({ data, position, ...props }, ref) => {
+  ({ data, position }, ref) => {
     // const getLabelClassName = (position?: PanelPosition) => {
     //   switch (position) {
     //     case "top-left":
@@ -61,7 +65,6 @@ export const GroupNode = forwardRef<HTMLDivElement, GroupNodeProps>(
       <BaseNode
         ref={ref}
         className="h-full overflow-hidden bg-opacity-50 p-0 border-secondary"
-        {...props}
       >
         <Panel className={cn("m-0 p-0")} position={position}>
           {data.label && <GroupNodeLabel>{data.label}</GroupNodeLabel>}
