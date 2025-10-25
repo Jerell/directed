@@ -68,8 +68,9 @@
 }
 
 .branchHandle {
-  --pointer-size: 14px;
-  --edge-thickness: 1px;
+  --pointer-size: 10px;
+  --edge-thickness: 1.5px;
+  --pointer-rotation: 45deg; /* default points to the right */
 
   &::after {
     content: "";
@@ -79,45 +80,56 @@
     height: var(--pointer-size);
     box-sizing: border-box;
     border: var(--edge-thickness) solid transparent;
+    /* Always color the same two sides; rotate for direction */
+    border-top-color: var(--brand-purple);
+    border-right-color: var(--brand-purple);
   }
 
-  /* placement by side of handle */
   &[data-position="left"]::after {
     left: calc(-1 * var(--pointer-size));
     top: 50%;
-    transform: translateY(-50%) rotate(45deg);
+    transform: translateY(-50%) rotate(var(--pointer-rotation));
   }
   &[data-position="right"]::after {
     right: calc(-1 * var(--pointer-size));
     top: 50%;
-    transform: translateY(-50%) rotate(45deg);
+    transform: translateY(-50%) rotate(var(--pointer-rotation));
   }
   &[data-position="top"]::after {
     top: calc(-1 * var(--pointer-size));
     left: 50%;
-    transform: translateX(-50%) rotate(45deg);
+    transform: translateX(-50%) rotate(var(--pointer-rotation));
   }
   &[data-position="bottom"]::after {
     bottom: calc(-1 * var(--pointer-size));
     left: 50%;
-    transform: translateX(-50%) rotate(45deg);
+    transform: translateX(-50%) rotate(var(--pointer-rotation));
   }
 
-  /* direction decides which two edges are colored */
   &[data-handle-point-direction="right"]::after {
-    border-top-color: var(--secondary);
-    border-right-color: var(--secondary);
+    --pointer-rotation: 45deg;
   }
   &[data-handle-point-direction="left"]::after {
-    border-bottom-color: var(--secondary);
-    border-left-color: var(--secondary);
+    --pointer-rotation: 225deg;
   }
   &[data-handle-point-direction="up"]::after {
-    border-top-color: var(--secondary);
-    border-left-color: var(--secondary);
+    --pointer-rotation: -45deg;
   }
   &[data-handle-point-direction="down"]::after {
-    border-bottom-color: var(--secondary);
-    border-right-color: var(--secondary);
+    --pointer-rotation: 135deg;
+  }
+
+  /* when direction matches side, shift inward by 50% for visual alignment */
+  &[data-position="right"][data-handle-point-direction="right"]::after {
+    transform: translate(-50%, -50%) rotate(var(--pointer-rotation));
+  }
+  &[data-position="left"][data-handle-point-direction="left"]::after {
+    transform: translate(50%, -50%) rotate(var(--pointer-rotation));
+  }
+  &[data-position="top"][data-handle-point-direction="up"]::after {
+    transform: translate(-50%, 50%) rotate(var(--pointer-rotation));
+  }
+  &[data-position="bottom"][data-handle-point-direction="down"]::after {
+    transform: translate(-50%, -50%) rotate(var(--pointer-rotation));
   }
 }

@@ -30,18 +30,6 @@ export function BranchNode({ data }: NodeProps<BranchNode>) {
         data-position={Position.Right}
         data-handle-point-direction="right"
       />
-      <BranchHandle
-        type="source"
-        position={Position.Bottom}
-        data-position={Position.Bottom}
-        data-handle-point-direction="down"
-      />
-      <BranchHandle
-        type="source"
-        position={Position.Top}
-        data-position={Position.Top}
-        data-handle-point-direction="down"
-      />
     </div>
   );
 }

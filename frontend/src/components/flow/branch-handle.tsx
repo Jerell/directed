@@ -13,7 +13,7 @@ export function BranchHandle({
       type={type}
       position={position}
       onConnect={onConnect}
-      className={cn(styles.branchHandle)}
+      className={cn(styles.branchHandle, props.className)}
       {...props}
     />
   );
