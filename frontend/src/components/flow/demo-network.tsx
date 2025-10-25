@@ -84,7 +84,7 @@ export default function App() {
         fitView
       >
         <MiniMap position="bottom-left" />
-        <Controls position="top-right" />
+        <Controls position="top-left" />
         <Background />
       </ReactFlow>
     </div>
