@@ -1,3 +1,9 @@
+import DemoNetwork from "@/components/flow/demo-network";
+
 export default function Home() {
-  return <p className="">Build a modular network as a directed graph</p>;
+  return (
+    <div className="flex flex-col flex-1 pt-px">
+      <DemoNetwork />
+    </div>
+  );
 }
