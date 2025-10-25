@@ -44,7 +44,6 @@ export function BranchNode({ data }: NodeProps<BranchNodeType>) {
         <div className="info">
           <h3 className="font-medium text-xl">{data.label}</h3>
           <div className="text-xs">
-            <p className="text-lg">Additional information</p>
             {Object.entries(countBlocksByKind).map(([kind, count]) => (
               <p key={kind}>
                 {kind}: {count}
