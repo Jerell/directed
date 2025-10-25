@@ -74,7 +74,7 @@ function InsertButton({
       className={cn(
         position === "before" && "top-0 left-0",
         position === "after" && "bottom-0 right-0",
-        "absolute h-full w-1/4 bg-brand-purple-bright group-hover:block hidden opacity-0 hover:opacity-100 cursor-pointer"
+        "absolute h-full w-1/4 bg-primary group-hover:block hidden opacity-0 hover:opacity-100 cursor-pointer"
       )}
     ></button>
   );
