@@ -13,6 +13,7 @@ import {
   MiniMap,
   Controls,
   Background,
+  Panel,
 } from "@xyflow/react";
 import { GroupNode } from "../labeled-group-node";
 import { BranchNode } from "./branch-node";
@@ -23,6 +24,7 @@ import {
   writeNodesToCollection,
   writeEdgesToCollection,
 } from "@/lib/collections/flow";
+import { NodeSearch } from "../node-search";
 
 const nodeTypes = {
   labeledGroupNode: GroupNode,
@@ -73,6 +75,9 @@ export default function FlowNetwork() {
         <MiniMap position="bottom-left" />
         <Controls position="top-left" />
         <Background />
+        <Panel className="flex gap-1 p-px text-foreground" position="top-right">
+          <NodeSearch />
+        </Panel>
       </ReactFlow>
     </div>
   );

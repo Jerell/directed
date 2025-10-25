@@ -19,13 +19,13 @@
   --brand-teal-deep: #052022;
   --brand-teal: #073440;
 
-  --radius: 0.625rem;
+  --radius: 0rem;
   --background: var(--brand-teal-deep);
   --foreground: var(--brand-black);
   --card: oklch(1 0 0);
   --card-foreground: var(--brand-black);
   --popover: var(--brand-teal);
-  --popover-foreground: oklch(0.985 0 0);
+  --popover-foreground: var(--primary-foreground);
   --primary: var(--brand-blue);
   --primary-foreground: oklch(0.985 0 0);
   --secondary: oklch(82.8% 0.189 84.429);
