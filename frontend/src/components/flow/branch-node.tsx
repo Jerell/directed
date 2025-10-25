@@ -19,24 +19,36 @@ export function BranchNode({ data }: NodeProps<BranchNodeType>) {
       return acc;
     }, {} as Record<BlockInfo["kind"], number>);
   }, [data.blocks]);
+
+  const containsSource = useMemo(() => {
+    return data.blocks.some((block) => block.kind === "source");
+  }, [data.blocks]);
+  const containsSink = useMemo(() => {
+    return data.blocks.some((block) => block.kind === "sink");
+  }, [data.blocks]);
+
   return (
     <div className={cn(styles.branchNode, "hover:bg-secondary/10")}>
       <div className={cn(styles.corner)} data-position="top-left" />
       <div className={cn(styles.corner)} data-position="top-right" />
       <div className={cn(styles.corner)} data-position="bottom-left" />
       <div className={cn(styles.corner)} data-position="bottom-right" />
-      <BranchHandle
-        type="target"
-        position={Position.Left}
-        data-position={Position.Left}
-        data-handle-point-direction="right"
-      />
-      <BranchHandle
-        type="source"
-        position={Position.Right}
-        data-position={Position.Right}
-        data-handle-point-direction="right"
-      />
+      {!containsSource && (
+        <BranchHandle
+          type="target"
+          position={Position.Left}
+          data-position={Position.Left}
+          data-handle-point-direction="right"
+        />
+      )}
+      {!containsSink && (
+        <BranchHandle
+          type="source"
+          position={Position.Right}
+          data-position={Position.Right}
+          data-handle-point-direction="right"
+        />
+      )}
       <div className="relative flex flex-col p-4">
         <div className="modules">
           <ModuleSequence blocks={data.blocks} />

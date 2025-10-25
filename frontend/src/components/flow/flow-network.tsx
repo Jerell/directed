@@ -144,7 +144,7 @@ const initialNodes = [
   },
   {
     id: "n7",
-    position: { x: 400, y: 380 },
+    position: { x: 300, y: 380 },
     data: {
       id: "branch7",
       label: "Branch 7",
@@ -159,6 +159,21 @@ const initialNodes = [
     },
     type: "branchNode",
   },
+  {
+    id: "n8",
+    position: { x: 500, y: 380 },
+    data: {
+      id: "branch8",
+      label: "Branch 8",
+      blocks: [
+        { length: 1, kind: "transform", label: "Pipe" },
+        { length: 1, kind: "transform", label: "Pipe" },
+        { length: 1, kind: "transform", label: "Pipe" },
+        { length: 1, kind: "transform", label: "Pipe" },
+      ],
+    },
+    type: "branchNode",
+  },
 ] satisfies (
   | Node<{ label: string; id: string }, "labeledGroupNode">
   | BranchNodeType
@@ -169,6 +184,7 @@ const initialEdges: Edge[] = [
   { id: "n4-n2", source: "n4", target: "n2" },
   { id: "n2-n5", source: "n2", target: "n5" },
   { id: "n5-n6", source: "n5", target: "n6" },
+  { id: "n8-n5", source: "n8", target: "n5" },
 ];
 
 export default function FlowNetwork() {
