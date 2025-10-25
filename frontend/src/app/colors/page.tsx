@@ -1,6 +1,6 @@
 export default function ColorsPage() {
   return (
-    <div className="flex flex-col h-screen bg-white [&>div]:h-1/14 [&>div]:flex [&>div]:flex-row [&>div]:items-center [&>div]:justify-between [&>div]:font-bold [&>div]:text-white [&>div]:p-4">
+    <div className="flex flex-col h-full w-full bg-white [&>div]:h-1/14 [&>div]:flex [&>div]:flex-row [&>div]:items-center [&>div]:justify-between [&>div]:font-bold [&>div]:text-white [&>div]:p-4">
       <div className="bg-brand-gradient-1">
         <p>1</p>
         <p>blue</p>
