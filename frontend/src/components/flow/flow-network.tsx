@@ -1,6 +1,6 @@
 "use client";
 
-import { useState, useCallback, memo } from "react";
+import { useState, useCallback } from "react";
 import {
   ReactFlow,
   applyNodeChanges,
@@ -19,11 +19,8 @@ import { GroupNode } from "../labeled-group-node";
 import { BranchNode } from "./branch-node";
 import type { BranchNodeType } from "./branch-node";
 
-const LabeledGroupNodeDemo = memo(() => <GroupNode label="Label" />);
-LabeledGroupNodeDemo.displayName = "LabeledGroupNodeDemo";
-
 const nodeTypes = {
-  labeledGroupNode: LabeledGroupNodeDemo,
+  labeledGroupNode: GroupNode,
   branchNode: BranchNode,
 };
 
@@ -32,7 +29,7 @@ const initialNodes = [
     id: "1",
     position: { x: 0, y: 0 },
     data: {
-      label: "Group Node",
+      label: "Labelled Group",
       id: "1",
     },
     width: 700,
