@@ -1,20 +1,17 @@
 import { nodesCollection } from "@/lib/collections/flow";
+import {
+  selectedChildrenCollection,
+  selectedGroupsCollection,
+  selectedNodesCollection,
+} from "@/lib/collections/selected-nodes";
 import { useLiveQuery } from "@tanstack/react-db";
 
 export function StatusRow() {
-  const { data: nodes = [] } = useLiveQuery(nodesCollection);
-
-  const selectedNodes = nodes.filter((node) => node.selected);
-
-  const selectedGroups = selectedNodes.filter(
-    (node) => node.type === "labeledGroupNode"
+  const { data: selectedNodes = [] } = useLiveQuery(selectedNodesCollection);
+  const { data: selectedChildren = [] } = useLiveQuery(
+    selectedChildrenCollection
   );
-
-  const selectedChildren = nodes.filter(
-    (node) =>
-      node.parentId && selectedNodes.map((n) => n.id).includes(node.parentId)
-  );
-
+  const { data: selectedGroups = [] } = useLiveQuery(selectedGroupsCollection);
   const groupSelectionInfo =
     selectedGroups.length > 0
       ? ` (${selectedGroups.length} groups selected with ${selectedChildren.length} children)`
