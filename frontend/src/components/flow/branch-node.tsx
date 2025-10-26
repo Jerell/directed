@@ -4,11 +4,7 @@ import { cn } from "@/lib/utils";
 import { BranchHandle } from "./branch-handle";
 import { useMemo } from "react";
 
-import type {
-  BlockInfo,
-  BranchNodeData,
-  BranchNodeType,
-} from "@/lib/types/flow-nodes";
+import type { BlockInfo, BranchNodeType } from "@/lib/types/flow-nodes";
 
 export function BranchNode({ data, selected }: NodeProps<BranchNodeType>) {
   const countBlocksByKind = useMemo(() => {
@@ -55,7 +51,7 @@ export function BranchNode({ data, selected }: NodeProps<BranchNodeType>) {
       )}
       <div className="relative flex flex-col p-4">
         <div className="modules">
-          <ModuleSequence blocks={data.blocks} />
+          <ModuleBlockSequence blocks={data.blocks} />
         </div>
         <div className="info">
           <h3 className="font-medium text-xl">{data.label}</h3>
@@ -128,7 +124,7 @@ function BlockSet({ blocks }: { blocks: BlockInfo }) {
   );
 }
 
-function ModuleSequence({ blocks }: { blocks: BlockInfo[] }) {
+export function ModuleBlockSequence({ blocks }: { blocks: BlockInfo[] }) {
   const canExtend = useMemo(() => {
     return !blocks.some((block) => block.kind === "sink");
   }, [blocks]);

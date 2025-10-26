@@ -26,3 +26,13 @@ export type LabeledGroupNodeType = Node<
 >;
 
 export type AppNode = BranchNodeType | LabeledGroupNodeType;
+
+export function isLabeledGroupNode(
+  node: AppNode
+): node is LabeledGroupNodeType {
+  return node.type === "labeledGroupNode";
+}
+
+export function isBranchNode(node: AppNode): node is BranchNodeType {
+  return node.type === "branchNode";
+}
