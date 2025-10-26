@@ -1,15 +1,6 @@
 "use client";
 
-import {
-  Calculator,
-  Calendar,
-  CreditCard,
-  File,
-  FilePlus,
-  Settings,
-  Smile,
-  User,
-} from "lucide-react";
+import { CreditCard, File, FilePlus, Settings, User } from "lucide-react";
 
 import {
   CommandDialog,
