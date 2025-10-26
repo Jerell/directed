@@ -11,7 +11,7 @@ import styles from "@/components/flow/flow.module.css";
 import { cn } from "@/lib/utils";
 import { ModuleBlockSequence } from "@/components/flow/branch-node";
 
-export function Selection() {
+export default function Selection() {
   const { data: selectedNodes = [] } = useLiveQuery(selectedNodesCollection);
 
   if (selectedNodes.length === 0) {
@@ -23,7 +23,7 @@ export function Selection() {
   }
 
   return (
-    <div className="flex flex-col gap-1">
+    <div className="flex flex-col gap-px">
       <SelectedGroups />
       <SelectedBranches />
     </div>
@@ -62,7 +62,7 @@ function GroupNodeInfo({ nodeId }: { nodeId: string }) {
       <div className="bg-secondary px-1 text-secondary-foreground">
         {group.data.label}
       </div>
-      <div className="p-1">
+      <div className="p-px">
         <div className="flex flex-col gap-px">
           {children.map(({ child }) => (
             <BranchNodeInfo key={child.id} nodeId={child.id} />
