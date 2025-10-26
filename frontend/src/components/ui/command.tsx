@@ -171,6 +171,21 @@ function CommandShortcut({
   );
 }
 
+export function CmdOrCtrl() {
+  const isMac =
+    typeof navigator !== "undefined" &&
+    /Mac|iPhone|iPod|iPad/i.test(navigator.platform);
+  return isMac ? "⌘" : "Ctrl + ";
+}
+
+export function CmdOrCtrlShortcut() {
+  return (
+    <span className="text-muted-foreground text-xs tracking-widest">
+      {<CmdOrCtrl />}
+    </span>
+  );
+}
+
 export {
   Command,
   CommandDialog,

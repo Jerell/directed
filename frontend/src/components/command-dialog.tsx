@@ -14,6 +14,7 @@ import {
 } from "@/components/ui/command";
 import { useEffect, useState } from "react";
 import { Button } from "./ui/button";
+import { CmdOrCtrl } from "./ui/command";
 
 export function CommandDialogDemo() {
   const [open, setOpen] = useState(false);
@@ -40,7 +41,10 @@ export function CommandDialogDemo() {
         View Commands
         <span className="text-muted-foreground text-sm">
           <kbd className="bg-muted text-muted-foreground pointer-events-none inline-flex h-5 items-center gap-1 rounded border px-1.5 font-mono text-[10px] font-medium opacity-100 select-none">
-            <span className="text-xs">⌘</span>J
+            <span className="text-xs">
+              <CmdOrCtrl />
+            </span>
+            J
           </kbd>
         </span>
       </Button>
@@ -64,17 +68,23 @@ export function CommandDialogDemo() {
             <CommandItem>
               <User />
               <span>Profile</span>
-              <CommandShortcut>⌘P</CommandShortcut>
+              <CommandShortcut>
+                <CmdOrCtrl />P
+              </CommandShortcut>
             </CommandItem>
             <CommandItem>
               <CreditCard />
               <span>Billing</span>
-              <CommandShortcut>⌘B</CommandShortcut>
+              <CommandShortcut>
+                <CmdOrCtrl />B
+              </CommandShortcut>
             </CommandItem>
             <CommandItem>
               <Settings />
               <span>Settings</span>
-              <CommandShortcut>⌘S</CommandShortcut>
+              <CommandShortcut>
+                <CmdOrCtrl />S
+              </CommandShortcut>
             </CommandItem>
           </CommandGroup>
         </CommandList>
