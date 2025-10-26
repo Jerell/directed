@@ -1,11 +1,11 @@
 "use client";
+import { nodesCollection } from "@/lib/collections/flow";
 import {
   selectedBranchesCollection,
-  selectedChildrenCollection,
   selectedGroupsCollection,
   selectedNodesCollection,
 } from "@/lib/collections/selected-nodes";
-import { useLiveQuery } from "@tanstack/react-db";
+import { eq, useLiveQuery } from "@tanstack/react-db";
 
 export function Selection() {
   const { data: selectedNodes = [] } = useLiveQuery(selectedNodesCollection);
@@ -26,14 +26,52 @@ export function Selection() {
   );
 }
 
+function GroupNodeInfo({ nodeId }: { nodeId: string }) {
+  const { data: group, isLoading } = useLiveQuery(
+    (q) =>
+      q
+        .from({ node: nodesCollection })
+        .where(({ node }) => eq(node.id, nodeId))
+        .findOne(),
+    [nodeId]
+  );
+
+  const { data: children = [] } = useLiveQuery((q) =>
+    q
+      .from({ child: nodesCollection })
+      .innerJoin({ parent: nodesCollection }, ({ child, parent }) =>
+        eq(child.parentId, parent.id)
+      )
+      .where(({ parent }) => eq(parent.id, nodeId))
+  );
+
+  const childCount = children.length;
+
+  if (isLoading) {
+    return <div className="px-1 text-sm">Loading...</div>;
+  }
+
+  if (!group) {
+    return <div className="px-1 text-sm">Group not found</div>;
+  }
+
+  return (
+    <div className="px-1 text-sm">
+      <span className="text-muted-foreground">Group:</span> {group.data.label}
+      <span className="text-muted-foreground">Children:</span> {childCount}
+    </div>
+  );
+}
+
 function SelectedGroups() {
   const { data: selectedGroups = [] } = useLiveQuery(selectedGroupsCollection);
-  const { data: selectedChildren = [] } = useLiveQuery(
-    selectedChildrenCollection
-  );
+
   return (
     <div>
       <p className="px-1">{selectedGroups.length} selected Groups</p>
+      {selectedGroups.map((group) => (
+        <GroupNodeInfo key={group.id} nodeId={group.id} />
+      ))}
     </div>
   );
 }

@@ -1,4 +1,5 @@
-import type { Node, Edge } from "@xyflow/react";
+import type { AppNode } from "@/lib/types/flow-nodes";
+import type { Edge } from "@xyflow/react";
 
 export const preset2 = {
   id: "preset-2",
@@ -30,6 +31,6 @@ export const preset2 = {
       },
       type: "branchNode",
     },
-  ] satisfies Node[],
+  ] satisfies AppNode[],
   edges: [{ id: "n4-1", source: "n4", target: "1" }] satisfies Edge[],
 };

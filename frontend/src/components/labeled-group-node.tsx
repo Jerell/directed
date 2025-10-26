@@ -1,10 +1,5 @@
-import React, { forwardRef, type HTMLAttributes, type ReactNode } from "react";
-import {
-  Panel,
-  type NodeProps,
-  type PanelPosition,
-  type Node,
-} from "@xyflow/react";
+import React, { forwardRef, type HTMLAttributes } from "react";
+import { Panel, type NodeProps, type PanelPosition } from "@xyflow/react";
 
 import { BaseNode } from "@/components/base-node";
 import { cn } from "@/lib/utils";
@@ -32,9 +27,9 @@ export const GroupNodeLabel = forwardRef<HTMLDivElement, GroupNodeLabelProps>(
 
 GroupNodeLabel.displayName = "GroupNodeLabel";
 
-type LabeledGroupNode = Node<{ label: ReactNode }, "labeledGroupNode">;
+import type { LabeledGroupNodeType } from "@/lib/types/flow-nodes";
 
-export type GroupNodeProps = NodeProps<LabeledGroupNode> & {
+export type GroupNodeProps = NodeProps<LabeledGroupNodeType> & {
   position?: PanelPosition;
 };
 

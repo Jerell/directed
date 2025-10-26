@@ -26,6 +26,7 @@ import {
 } from "@/lib/collections/flow";
 import { NodeSearch } from "../node-search";
 import { StatusRow } from "./status/status-row";
+import type { AppNode } from "@/lib/types/flow-nodes";
 
 const nodeTypes = {
   labeledGroupNode: GroupNode,
@@ -41,7 +42,7 @@ export default function FlowNetwork() {
   const onNodesChange = useCallback(
     (changes: NodeChange[]) => {
       const updated = applyNodeChanges(changes, nodes);
-      writeNodesToCollection(updated);
+      writeNodesToCollection(updated as AppNode[]);
     },
     [nodes]
   );

@@ -1,16 +1,14 @@
-import { NodeProps, Node, Position } from "@xyflow/react";
+import { NodeProps, Position } from "@xyflow/react";
 import styles from "./flow.module.css";
 import { cn } from "@/lib/utils";
 import { BranchHandle } from "./branch-handle";
 import { useMemo } from "react";
 
-export type BranchNodeData = {
-  id: string;
-  label: string;
-  blocks: BlockInfo[];
-};
-
-export type BranchNodeType = Node<BranchNodeData, "branchNode">;
+import type {
+  BlockInfo,
+  BranchNodeData,
+  BranchNodeType,
+} from "@/lib/types/flow-nodes";
 
 export function BranchNode({ data, selected }: NodeProps<BranchNodeType>) {
   const countBlocksByKind = useMemo(() => {
@@ -74,11 +72,7 @@ export function BranchNode({ data, selected }: NodeProps<BranchNodeType>) {
   );
 }
 
-type BlockInfo = {
-  length: number;
-  kind: "source" | "sink" | "transform";
-  label: string;
-};
+// BlockInfo is imported from shared types
 
 function InsertButton({
   kind,

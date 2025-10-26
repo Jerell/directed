@@ -1,17 +1,34 @@
 "use client";
 
-import { createCollection, localStorageCollectionOptions } from "@tanstack/db";
-import type { Node, Edge } from "@xyflow/react";
+import {
+  createCollection,
+  eq,
+  liveQueryCollectionOptions,
+  localStorageCollectionOptions,
+} from "@tanstack/db";
+import type { Edge } from "@xyflow/react";
+import type { AppNode } from "@/lib/types/flow-nodes";
 import { preset1 } from "./flow-network-presets/preset1";
 import { FlowPreset } from "./flow-network-presets";
 
 export const nodesCollection = createCollection(
-  localStorageCollectionOptions<Node>({
+  localStorageCollectionOptions<AppNode>({
     id: "flow:nodes",
     storageKey: "flow:nodes",
     getKey: (node) => node.id,
   })
 );
+
+export const findById = (nodeId: string) =>
+  createCollection(
+    liveQueryCollectionOptions({
+      query: (q) =>
+        q
+          .from({ node: nodesCollection })
+          .where(({ node }) => eq(node.id, nodeId))
+          .findOne(),
+    })
+  );
 
 export const edgesCollection = createCollection(
   localStorageCollectionOptions<Edge>({
@@ -22,7 +39,7 @@ export const edgesCollection = createCollection(
 );
 
 export async function seedFlowCollections(
-  initialNodes: Node[],
+  initialNodes: AppNode[],
   initialEdges: Edge[]
 ) {
   // Ensure sync starts before we inspect size
@@ -108,7 +125,7 @@ export async function resetFlowToPreset(preset: FlowPreset): Promise<void> {
 // Write helpers for ReactFlow integration
 // ---------------------------------------------------------------------------
 
-export function writeNodesToCollection(updated: Node[]): void {
+export function writeNodesToCollection(updated: AppNode[]): void {
   const prevKeys = new Set<string>(
     Array.from(nodesCollection.keys()) as string[]
   );

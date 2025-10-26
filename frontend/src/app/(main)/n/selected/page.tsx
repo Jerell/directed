@@ -1,3 +1,4 @@
+"use client";
 import { Selection } from "./selection";
 
 export default function SelectedPage() {
