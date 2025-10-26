@@ -13,15 +13,18 @@ import {
   DropdownMenuSeparator,
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
+import Link from "next/link";
 
 export function Header() {
   return (
     <header className="flex items-center justify-between text-white">
       <div className="flex items-center gap-px">
         <ButtonGroup>
-          <Button variant="outline" size="icon" aria-label="Home">
-            <HomeIcon />
-          </Button>
+          <Link href="/">
+            <Button variant="outline" size="icon" aria-label="Home">
+              <HomeIcon />
+            </Button>
+          </Link>
         </ButtonGroup>
         <ButtonGroup>
           <Button variant="outline">New</Button>

@@ -1,4 +1,4 @@
-import { FlowNetworkWrapper } from "./FlowNetworkWrapper";
+import { FlowNetworkWrapper } from "./flow-network-wrapper";
 
 export default function Home() {
   return (

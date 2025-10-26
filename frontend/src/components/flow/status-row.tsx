@@ -1,4 +1,3 @@
-import { nodesCollection } from "@/lib/collections/flow";
 import {
   selectedChildrenCollection,
   selectedGroupsCollection,
