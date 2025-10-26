@@ -6,9 +6,11 @@ export default function NodeLayout({
   children: React.ReactNode;
 }) {
   return (
-    <div className="grid @max-4xl:grid-rows-2 4xl:grid-cols-2 gap-px h-full w-full">
+    <div className="grid @max-4xl:grid-rows-2 4xl:grid-cols-2 gap-px h-full min-h-0 w-full">
       <FlowNetworkWrapper />
-      {children}
+      <div className="h-full overflow-scroll border border-brand-blue p-px">
+        {children}
+      </div>
     </div>
   );
 }
