@@ -114,7 +114,12 @@ function BranchNodeInfo({ nodeId }: { nodeId: string }) {
         <h3 className="font-medium text-xl">{branch.data.label}</h3>
         <div className="text-xs">
           {branch.data.blocks
-            .map((block) => `${block.label} (x${block.length})`)
+            .map((block) => {
+              if (block.length === 1) {
+                return block.label;
+              }
+              return `${block.label} (x${block.length})`;
+            })
             .join(", ")}
         </div>
       </div>
