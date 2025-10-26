@@ -30,10 +30,16 @@ export type RegisteredKeybind = {
   };
 };
 
+export type DialogAPI = {
+  open: () => void;
+  close: () => void;
+  toggle: () => void;
+};
+
 export type CommandItem = {
   id: string;
   label: string;
-  run: () => void | Promise<void>;
+  run: (dialog: DialogAPI) => void | Promise<void>;
   shortcut?: ShortcutString;
   group?: string;
   icon?: React.ReactNode;
@@ -182,7 +188,11 @@ export default function KeybindProvider({
       if (command.shortcut) {
         unbind = bind(command.shortcut, (_e) => {
           void _e; // mark used to satisfy linter without side effects
-          command.run();
+          command.run({
+            open: () => setCommandPaletteOpen(true),
+            close: () => setCommandPaletteOpen(false),
+            toggle: toggleCommandPalette,
+          });
         });
       }
 
@@ -191,7 +201,7 @@ export default function KeybindProvider({
         if (unbind) unbind();
       };
     },
-    [bind]
+    [bind, toggleCommandPalette]
   );
 
   useEffect(() => {
@@ -250,4 +260,114 @@ export default function KeybindProvider({
   return (
     <KeybindContext.Provider value={value}>{children}</KeybindContext.Provider>
   );
+}
+
+// Higher-level hooks
+export function useCommands(initial?: CommandItem[] | (() => CommandItem[])) {
+  const {
+    registerCommand,
+    setCommandPaletteOpen,
+    toggleCommandPalette,
+    isCommandPaletteOpen,
+    commands,
+  } = useKeybindContext();
+  const unregistersRef = useRef<Array<() => void>>([]);
+
+  const register = useCallback(
+    (command: CommandItem | CommandItem[]) => {
+      const items = Array.isArray(command) ? command : [command];
+      for (const item of items) {
+        const off = registerCommand(item);
+        unregistersRef.current.push(off);
+      }
+    },
+    [registerCommand]
+  );
+
+  const clear = useCallback(() => {
+    for (const off of unregistersRef.current) off();
+    unregistersRef.current = [];
+  }, []);
+
+  // Capture initial once so callers can pass inline arrays safely
+  const initialRef = useRef<typeof initial>(initial);
+
+  useEffect(() => {
+    const init = initialRef.current;
+    if (!init) return;
+    const items = typeof init === "function" ? init() : init;
+    register(items);
+    return () => clear();
+  }, [register, clear]);
+
+  useEffect(() => clear, [clear]);
+
+  const closePalette = useCallback(
+    () => setCommandPaletteOpen(false),
+    [setCommandPaletteOpen]
+  );
+  const openPalette = useCallback(
+    () => setCommandPaletteOpen(true),
+    [setCommandPaletteOpen]
+  );
+
+  const runCommand = useCallback(
+    async (cmd: CommandItem, opts?: { closeAfter?: boolean }) => {
+      await cmd.run({
+        open: openPalette,
+        close: closePalette,
+        toggle: toggleCommandPalette,
+      });
+      if (opts?.closeAfter) closePalette();
+    },
+    [openPalette, closePalette, toggleCommandPalette]
+  );
+
+  return {
+    // registry
+    register,
+    clear,
+    // palette controls
+    isCommandPaletteOpen,
+    openPalette,
+    closePalette,
+    togglePalette: toggleCommandPalette,
+    // commands list and helpers
+    commands,
+    runCommand,
+  } as const;
+}
+
+export function formatShortcutForDisplay(shortcut: ShortcutString): string {
+  const s = normalizeShortcut(shortcut);
+  const isMac = isMacPlatform();
+
+  const partsMac: string[] = [];
+  const partsWin: string[] = [];
+
+  if (isMac) {
+    if (s.metaKey) partsMac.push("⌘");
+    if (s.shiftKey) partsMac.push("⇧");
+    if (s.altKey) partsMac.push("⌥");
+    if (s.ctrlKey) partsMac.push("⌃");
+  } else {
+    if (s.ctrlKey) partsWin.push("Ctrl");
+    if (s.shiftKey) partsWin.push("Shift");
+    if (s.altKey) partsWin.push("Alt");
+    if (s.metaKey) partsWin.push("Meta");
+  }
+
+  // Normalize key label
+  const keyLabelRaw = s.key;
+  let keyLabel = keyLabelRaw;
+  if (keyLabel.length === 1) keyLabel = keyLabel.toUpperCase();
+  if (keyLabelRaw.toLowerCase() === "escape") keyLabel = "Esc";
+  if (keyLabelRaw.toLowerCase().startsWith("arrow")) {
+    keyLabel = keyLabelRaw.replace("Arrow", "");
+  }
+
+  if (isMac) {
+    return [...partsMac, keyLabel].filter(Boolean).join("");
+  }
+  return [...partsWin, keyLabel].filter(Boolean).join(" + ");
 }

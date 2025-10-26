@@ -11,84 +11,77 @@ import {
   CommandList,
   CommandShortcut,
 } from "@/components/ui/command";
-import { useEffect } from "react";
 import { Button } from "./ui/button";
 import { CmdOrCtrl } from "./ui/command";
 import {
-  normalizeShortcut,
-  useKeybindContext,
+  formatShortcutForDisplay,
+  useCommands,
 } from "@/context/keybind-provider";
+import type { DialogAPI } from "@/context/keybind-provider";
 
 export function GlobalCommandDialog() {
   const {
     isCommandPaletteOpen,
-    setCommandPaletteOpen,
+    openPalette,
+    closePalette,
     commands,
-    registerCommand,
-  } = useKeybindContext();
-
-  useEffect(() => {
-    const unregisters: Array<() => void> = [];
-
-    unregisters.push(
-      registerCommand({
-        id: "new",
-        label: "New",
-        run: () => console.log("New command"),
-        shortcut: "N",
-        group: "Suggestions",
-        icon: <FilePlus />,
-      })
-    );
-
-    unregisters.push(
-      registerCommand({
-        id: "open-file",
-        label: "Open file",
-        run: () => console.log("Open file"),
-        shortcut: "Mod+O",
-        group: "Suggestions",
-        icon: <File />,
-      })
-    );
-
-    unregisters.push(
-      registerCommand({
-        id: "profile",
-        label: "Profile",
-        run: () => console.log("Profile"),
-        shortcut: "Mod+P",
-        group: "Settings",
-        icon: <User />,
-      })
-    );
-
-    unregisters.push(
-      registerCommand({
-        id: "billing",
-        label: "Billing",
-        run: () => console.log("Billing"),
-        shortcut: "Mod+B",
-        group: "Settings",
-        icon: <CreditCard />,
-      })
-    );
-
-    unregisters.push(
-      registerCommand({
-        id: "settings",
-        label: "Settings",
-        run: () => console.log("Settings"),
-        shortcut: "Mod+S",
-        group: "Settings",
-        icon: <Settings />,
-      })
-    );
-
-    return () => {
-      for (const off of unregisters) off();
-    };
-  }, [registerCommand]);
+    runCommand,
+  } = useCommands([
+    {
+      id: "new",
+      label: "New",
+      run: (dialog: DialogAPI) => {
+        console.log("New document");
+        dialog.close();
+      },
+      group: "Suggestions",
+      icon: <FilePlus />,
+    },
+    {
+      id: "open-file",
+      label: "Open file",
+      run: (dialog: DialogAPI) => {
+        console.log("Open file");
+        dialog.close();
+      },
+      shortcut: "Mod+O",
+      group: "Suggestions",
+      icon: <File />,
+    },
+    {
+      id: "profile",
+      label: "Profile",
+      run: (dialog: DialogAPI) => {
+        console.log("Profile");
+        dialog.close();
+      },
+      shortcut: "Mod+P",
+      group: "Settings",
+      icon: <User />,
+    },
+    {
+      id: "billing",
+      label: "Billing",
+      run: (dialog: DialogAPI) => {
+        console.log("Billing");
+        dialog.close();
+      },
+      shortcut: "Mod+B",
+      group: "Settings",
+      icon: <CreditCard />,
+    },
+    {
+      id: "settings",
+      label: "Settings",
+      run: (dialog: DialogAPI) => {
+        console.log("Settings");
+        dialog.close();
+      },
+      shortcut: "Mod+S",
+      group: "Settings",
+      icon: <Settings />,
+    },
+  ]);
 
   const groups = Array.from(
     commands.reduce<Map<string | undefined, typeof commands>>((map, cmd) => {
@@ -104,7 +97,7 @@ export function GlobalCommandDialog() {
       <Button
         variant="outline"
         aria-label="Open command dialog"
-        onClick={() => setCommandPaletteOpen(true)}
+        onClick={openPalette}
       >
         View Commands
         <span className="text-muted-foreground text-sm">
@@ -119,7 +112,7 @@ export function GlobalCommandDialog() {
 
       <CommandDialog
         open={isCommandPaletteOpen}
-        onOpenChange={setCommandPaletteOpen}
+        onOpenChange={(open) => (open ? openPalette() : closePalette())}
       >
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
@@ -129,16 +122,13 @@ export function GlobalCommandDialog() {
               {groupCommands.map((cmd) => (
                 <CommandItem
                   key={cmd.id}
-                  onSelect={() => {
-                    cmd.run();
-                    setCommandPaletteOpen(false);
-                  }}
+                  onSelect={() => runCommand(cmd, { closeAfter: true })}
                 >
                   {cmd.icon}
                   <span>{cmd.label}</span>
                   {cmd.shortcut ? (
                     <CommandShortcut>
-                      {normalizeShortcut(cmd.shortcut).key.toUpperCase()}
+                      {formatShortcutForDisplay(cmd.shortcut)}
                     </CommandShortcut>
                   ) : null}
                 </CommandItem>
