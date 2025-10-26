@@ -26,6 +26,7 @@ export function BranchNode({ data, selected }: NodeProps<BranchNodeType>) {
       className={cn(
         styles.branchNode,
         "hover:bg-secondary/10",
+        "focus-within:bg-secondary/10",
         selected && "bg-brand-purple-bright/10"
       )}
     >

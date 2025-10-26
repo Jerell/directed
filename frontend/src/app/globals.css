@@ -195,3 +195,7 @@
   --xy-edge-label-color-default: inherit;
   --xy-resize-background-color-default: #3367d9;
 }
+
+.react-flow__node-branchNode:focus-visible [class*="__branchNode"] {
+  background-color: oklch(from var(--secondary) l c h / 0.1);
+}
