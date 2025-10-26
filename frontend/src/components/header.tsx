@@ -28,8 +28,6 @@ export function Header() {
           </Link>
         </ButtonGroup>
         <ButtonGroup>
-          <Button variant="outline">New</Button>
-          <Button variant="outline">Open</Button>
           <DropdownMenu>
             <DropdownMenuTrigger asChild>
               <Button variant="outline">Presets</Button>
@@ -56,7 +54,7 @@ export function Header() {
         </ButtonGroup>
         <CommandDialogDemo />
       </div>
-      <h1 className="text-2xl font-bold mr-1">Directed</h1>
+      <h1 className="text-2xl font-bold mr-1">Network/File name shown here</h1>
     </header>
   );
 }

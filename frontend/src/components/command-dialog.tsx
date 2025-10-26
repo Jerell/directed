@@ -4,6 +4,8 @@ import {
   Calculator,
   Calendar,
   CreditCard,
+  File,
+  FilePlus,
   Settings,
   Smile,
   User,
@@ -58,16 +60,12 @@ export function CommandDialogDemo() {
           <CommandEmpty>No results found.</CommandEmpty>
           <CommandGroup heading="Suggestions">
             <CommandItem>
-              <Calendar />
-              <span>Calendar</span>
+              <FilePlus />
+              <span>New</span>
             </CommandItem>
             <CommandItem>
-              <Smile />
-              <span>Search Emoji</span>
-            </CommandItem>
-            <CommandItem>
-              <Calculator />
-              <span>Calculator</span>
+              <File />
+              <span>Open file</span>
             </CommandItem>
           </CommandGroup>
           <CommandSeparator />
