@@ -14,7 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
-import { CommandDialogDemo } from "./command-dialog";
+import { GlobalCommandDialog } from "./command-dialog";
 
 export function Header() {
   return (
@@ -52,7 +52,7 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
         </ButtonGroup>
-        <CommandDialogDemo />
+        <GlobalCommandDialog />
       </div>
       <h1 className="text-2xl font-bold mr-1">Network/File name shown here</h1>
     </header>

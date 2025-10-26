@@ -2,6 +2,7 @@
 
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { ReactQueryDevtools } from "@tanstack/react-query-devtools";
+import KeybindProvider from "./keybind-provider";
 
 const queryClient = new QueryClient();
 
@@ -13,7 +14,7 @@ export function RootContextProvider({
   return (
     <QueryClientProvider client={queryClient}>
       <ReactQueryDevtools initialIsOpen={false} />
-      {children}
+      <KeybindProvider>{children}</KeybindProvider>
     </QueryClientProvider>
   );
 }

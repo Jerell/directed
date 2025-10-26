@@ -9,34 +9,102 @@ import {
   CommandInput,
   CommandItem,
   CommandList,
-  CommandSeparator,
   CommandShortcut,
 } from "@/components/ui/command";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 import { Button } from "./ui/button";
 import { CmdOrCtrl } from "./ui/command";
+import {
+  normalizeShortcut,
+  useKeybindContext,
+} from "@/context/keybind-provider";
 
-export function CommandDialogDemo() {
-  const [open, setOpen] = useState(false);
+export function GlobalCommandDialog() {
+  const {
+    isCommandPaletteOpen,
+    setCommandPaletteOpen,
+    commands,
+    registerCommand,
+  } = useKeybindContext();
 
   useEffect(() => {
-    const down = (e: KeyboardEvent) => {
-      if (e.key === "j" && (e.metaKey || e.ctrlKey)) {
-        e.preventDefault();
-        setOpen((open) => !open);
-      }
-    };
+    const unregisters: Array<() => void> = [];
 
-    document.addEventListener("keydown", down);
-    return () => document.removeEventListener("keydown", down);
-  }, []);
+    unregisters.push(
+      registerCommand({
+        id: "new",
+        label: "New",
+        run: () => console.log("New command"),
+        shortcut: "N",
+        group: "Suggestions",
+        icon: <FilePlus />,
+      })
+    );
+
+    unregisters.push(
+      registerCommand({
+        id: "open-file",
+        label: "Open file",
+        run: () => console.log("Open file"),
+        shortcut: "Mod+O",
+        group: "Suggestions",
+        icon: <File />,
+      })
+    );
+
+    unregisters.push(
+      registerCommand({
+        id: "profile",
+        label: "Profile",
+        run: () => console.log("Profile"),
+        shortcut: "Mod+P",
+        group: "Settings",
+        icon: <User />,
+      })
+    );
+
+    unregisters.push(
+      registerCommand({
+        id: "billing",
+        label: "Billing",
+        run: () => console.log("Billing"),
+        shortcut: "Mod+B",
+        group: "Settings",
+        icon: <CreditCard />,
+      })
+    );
+
+    unregisters.push(
+      registerCommand({
+        id: "settings",
+        label: "Settings",
+        run: () => console.log("Settings"),
+        shortcut: "Mod+S",
+        group: "Settings",
+        icon: <Settings />,
+      })
+    );
+
+    return () => {
+      for (const off of unregisters) off();
+    };
+  }, [registerCommand]);
+
+  const groups = Array.from(
+    commands.reduce<Map<string | undefined, typeof commands>>((map, cmd) => {
+      const key = cmd.group;
+      if (!map.has(key)) map.set(key, []);
+      map.get(key)!.push(cmd);
+      return map;
+    }, new Map())
+  );
 
   return (
     <>
       <Button
         variant="outline"
         aria-label="Open command dialog"
-        onClick={() => setOpen(true)}
+        onClick={() => setCommandPaletteOpen(true)}
       >
         View Commands
         <span className="text-muted-foreground text-sm">
@@ -49,44 +117,34 @@ export function CommandDialogDemo() {
         </span>
       </Button>
 
-      <CommandDialog open={open} onOpenChange={setOpen}>
+      <CommandDialog
+        open={isCommandPaletteOpen}
+        onOpenChange={setCommandPaletteOpen}
+      >
         <CommandInput placeholder="Type a command or search..." />
         <CommandList>
           <CommandEmpty>No results found.</CommandEmpty>
-          <CommandGroup heading="Suggestions">
-            <CommandItem>
-              <FilePlus />
-              <span>New</span>
-            </CommandItem>
-            <CommandItem>
-              <File />
-              <span>Open file</span>
-            </CommandItem>
-          </CommandGroup>
-          <CommandSeparator />
-          <CommandGroup heading="Settings">
-            <CommandItem>
-              <User />
-              <span>Profile</span>
-              <CommandShortcut>
-                <CmdOrCtrl />P
-              </CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <CreditCard />
-              <span>Billing</span>
-              <CommandShortcut>
-                <CmdOrCtrl />B
-              </CommandShortcut>
-            </CommandItem>
-            <CommandItem>
-              <Settings />
-              <span>Settings</span>
-              <CommandShortcut>
-                <CmdOrCtrl />S
-              </CommandShortcut>
-            </CommandItem>
-          </CommandGroup>
+          {groups.map(([groupName, groupCommands]) => (
+            <CommandGroup key={groupName ?? "ungrouped"} heading={groupName}>
+              {groupCommands.map((cmd) => (
+                <CommandItem
+                  key={cmd.id}
+                  onSelect={() => {
+                    cmd.run();
+                    setCommandPaletteOpen(false);
+                  }}
+                >
+                  {cmd.icon}
+                  <span>{cmd.label}</span>
+                  {cmd.shortcut ? (
+                    <CommandShortcut>
+                      {normalizeShortcut(cmd.shortcut).key.toUpperCase()}
+                    </CommandShortcut>
+                  ) : null}
+                </CommandItem>
+              ))}
+            </CommandGroup>
+          ))}
         </CommandList>
       </CommandDialog>
     </>
