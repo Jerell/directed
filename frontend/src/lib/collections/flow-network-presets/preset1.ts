@@ -8,7 +8,7 @@ export const preset1 = {
       id: "group-1",
       position: { x: 0, y: 0 },
       data: {
-        label: "Labelled Group",
+        label: "Labeled Group",
         id: "group-1",
       },
       width: 700,
