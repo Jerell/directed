@@ -25,7 +25,7 @@ import {
   writeEdgesToCollection,
 } from "@/lib/collections/flow";
 import { NodeSearch } from "../node-search";
-import { StatusRow } from "./status-row";
+import { StatusRow } from "./status/status-row";
 
 const nodeTypes = {
   labeledGroupNode: GroupNode,

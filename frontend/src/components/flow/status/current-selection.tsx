@@ -4,8 +4,10 @@ import {
   selectedNodesCollection,
 } from "@/lib/collections/selected-nodes";
 import { useLiveQuery } from "@tanstack/react-db";
+import { ArrowDownIcon, ArrowRightIcon } from "lucide-react";
+import Link from "next/link";
 
-export function StatusRow() {
+export function CurrentSelection() {
   const { data: selectedNodes = [] } = useLiveQuery(selectedNodesCollection);
   const { data: selectedChildren = [] } = useLiveQuery(
     selectedChildrenCollection
@@ -16,11 +18,20 @@ export function StatusRow() {
       ? ` (${selectedGroups.length} groups selected with ${selectedChildren.length} children)`
       : "";
 
+  if (selectedNodes.length === 0) {
+    return <p className="pr-1 text-white">No nodes selected</p>;
+  }
+
   return (
-    <div className="flex flex-row gap-1 p-px text-foreground items-end">
-      <p className="pr-1 text-white">
-        {selectedNodes.length} selected{groupSelectionInfo}
+    <Link
+      href="/n/selected"
+      className="pr-1 text-white flex flex-row items-center gap-1"
+    >
+      <p>
+        {selectedNodes.length} selected{groupSelectionInfo}{" "}
       </p>
-    </div>
+      <ArrowRightIcon className="size-4 max-4xl:hidden inline-block" />
+      <ArrowDownIcon className="size-4 inline-block 4xl:hidden" />
+    </Link>
   );
 }
