@@ -20,6 +20,16 @@ export const selectedGroupsCollection = createCollection(
   })
 );
 
+export const selectedBranchesCollection = createCollection(
+  liveQueryCollectionOptions({
+    query: (q) =>
+      q
+        .from({ node: nodesCollection })
+        .where(({ node }) => eq(node.type, "branchNode"))
+        .where(({ node }) => eq(node.selected, true)),
+  })
+);
+
 export const selectedChildrenCollection = createCollection(
   liveQueryCollectionOptions({
     query: (q) =>
