@@ -14,6 +14,7 @@ import {
   DropdownMenuTrigger,
 } from "@/components/ui/dropdown-menu";
 import Link from "next/link";
+import { CommandDialogDemo } from "./command-dialog";
 
 export function Header() {
   return (
@@ -53,6 +54,7 @@ export function Header() {
             </DropdownMenuContent>
           </DropdownMenu>
         </ButtonGroup>
+        <CommandDialogDemo />
       </div>
       <h1 className="text-2xl font-bold mr-1">Directed</h1>
     </header>
