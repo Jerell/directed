@@ -15,7 +15,11 @@ export function CurrentSelection() {
   const { data: selectedGroups = [] } = useLiveQuery(selectedGroupsCollection);
   const groupSelectionInfo =
     selectedGroups.length > 0
-      ? ` (${selectedGroups.length} groups selected with ${selectedChildren.length} children)`
+      ? ` (${selectedGroups.length} group${
+          selectedGroups.length === 1 ? "" : "s"
+        } selected with ${selectedChildren.length} child${
+          selectedChildren.length === 1 ? "" : "ren"
+        })`
       : "";
 
   if (selectedNodes.length === 0) {
