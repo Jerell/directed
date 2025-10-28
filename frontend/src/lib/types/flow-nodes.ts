@@ -25,7 +25,20 @@ export type LabeledGroupNodeType = Node<
   "labeledGroupNode"
 >;
 
-export type AppNode = BranchNodeType | LabeledGroupNodeType;
+export type GeographicAnchorNodeData = {
+  id: string;
+  label: ReactNode;
+};
+
+export type GeographicAnchorNodeType = Node<
+  GeographicAnchorNodeData,
+  "geographicAnchorNode"
+>;
+
+export type AppNode =
+  | BranchNodeType
+  | LabeledGroupNodeType
+  | GeographicAnchorNodeType;
 
 export type AppEdge = Edge<
   {
@@ -33,6 +46,12 @@ export type AppEdge = Edge<
   },
   "weightedEdge"
 >;
+
+export function isGeographicAnchorNode(
+  node: AppNode
+): node is GeographicAnchorNodeType {
+  return node.type === "geographicAnchorNode";
+}
 
 export function isLabeledGroupNode(
   node: AppNode

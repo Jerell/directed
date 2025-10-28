@@ -16,6 +16,19 @@ export const preset1 = {
       type: "labeledGroupNode",
     },
     {
+      id: "geographic-anchor-1",
+      position: { x: -100, y: -100 },
+      data: {
+        label: "Anchor",
+        id: "geographic-anchor-1",
+      },
+      width: 1000,
+      height: 500,
+      type: "geographicAnchorNode",
+      draggable: false,
+      selectable: false,
+    },
+    {
       id: "branch-1",
       position: { x: 20, y: 30 },
       data: {

@@ -28,8 +28,10 @@ import { NodeSearch } from "../node-search";
 import { StatusRow } from "./status/status-row";
 import type { AppEdge, AppNode } from "@/lib/types/flow-nodes";
 import { FlowContextMenu } from "./contex-menus/flow-context-menu";
+import { GeographicAnchorNode } from "./geography/geographic-anchor-node";
 
 const nodeTypes = {
+  geographicAnchorNode: GeographicAnchorNode,
   labeledGroupNode: GroupNode,
   branchNode: BranchNode,
 };
