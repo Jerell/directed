@@ -13,12 +13,12 @@ function BranchBlockProperties({ block }: { block: BlockInfo }) {
   return (
     <div className="text-xs flex flex-row bg-brand-blue/40 text-primary-foreground">
       <div className="p-4 min-w-36 h-full flex flex-col flex-1 grow">
-        <p>{block.label}</p>
+        <p title="module name">{block.label}</p>
         <p>x{block.length}</p>
       </div>
       <div className="flex flex-col w-full border-l border-primary text-primary-foreground">
         <div className="p-4 bg-brand-purple/30 w-full">
-          <p>Header</p>
+          <p>Specific cost item name here maybe</p>
         </div>
 
         <div className="p-4 bg-brand-purple-bright/50 h-full w-full flex flex-col gap-1">
