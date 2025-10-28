@@ -15,6 +15,8 @@ import {
 import { useCommands } from "@/context/keybind-provider";
 import { RotateCw, Trash } from "lucide-react";
 import { BranchNodeData } from "@/lib/types/flow-nodes";
+import { openDialog } from "@/context/dialog-provider";
+import { BranchOrientationDialog } from "../dialogs/orientation";
 
 export function BranchContextMenu({
   children,
@@ -37,6 +39,16 @@ export function BranchContextMenu({
     },
   ]);
 
+  function handleOrientation() {
+    openDialog(
+      ({ close }) => <BranchOrientationDialog onClose={close} data={data} />,
+      {
+        title: "Orientation",
+        description: "Configure the orientation of the branch",
+      }
+    );
+  }
+
   const branchCommands = commands.filter((cmd) => cmd.group === "Branch");
   return (
     <ContextMenu>
@@ -58,8 +70,8 @@ export function BranchContextMenu({
           <ContextMenuSubTrigger inset>Appearance</ContextMenuSubTrigger>
           <ContextMenuSubContent className="w-44">
             <ContextMenuGroup>
-              <ContextMenuItem>
-                <RotateCw /> Rotate branch
+              <ContextMenuItem onSelect={handleOrientation}>
+                <RotateCw /> Orientation
               </ContextMenuItem>
             </ContextMenuGroup>
             <ContextMenuSeparator />

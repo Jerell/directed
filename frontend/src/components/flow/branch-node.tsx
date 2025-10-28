@@ -98,19 +98,44 @@ function InsertButton({
   );
 }
 
-function BottomBlock({ kind }: { kind: BlockInfo["kind"] }) {
+function BottomBlock({
+  kind,
+  interactive = true,
+}: {
+  kind: BlockInfo["kind"];
+  interactive?: boolean;
+}) {
   return (
     <div className="relative h-4 w-4 group">
-      <InsertButton kind={kind} position="before" />
+      {interactive && <InsertButton kind={kind} position="before" />}
       <div className={cn("h-4 w-4 ", styles.block)} data-kind={kind}></div>
-      <InsertButton kind={kind} position="after" />
+      {interactive && <InsertButton kind={kind} position="after" />}
     </div>
   );
 }
 
-function BlockSet({ blocks }: { blocks: BlockInfo }) {
+function BlockSet({
+  blocks,
+  interactive = true,
+  orientation = "left-to-right",
+}: {
+  blocks: BlockInfo;
+  interactive?: boolean;
+  orientation?:
+    | "left-to-right"
+    | "top-to-bottom"
+    | "right-to-left"
+    | "bottom-to-top";
+}) {
   return (
-    <div className="flex flex-col gap-px">
+    <div
+      className={cn(
+        "flex flex-col gap-px",
+        orientation === "top-to-bottom" && "flex-row",
+        orientation === "right-to-left" && "flex-row-reverse",
+        orientation === "bottom-to-top" && "flex-col-reverse"
+      )}
+    >
       {Array.from({ length: blocks.length - 1 }, (_, index) => (
         <div
           key={index}
@@ -118,7 +143,7 @@ function BlockSet({ blocks }: { blocks: BlockInfo }) {
           data-kind={blocks.kind}
         ></div>
       ))}
-      <BottomBlock kind={blocks.kind} />
+      <BottomBlock kind={blocks.kind} interactive={interactive} />
       <div className="h-4 w-4 flex items-center justify-center">
         <p className="text-[0.45rem] text-primary-foreground text-center font-bold">
           {blocks.label[0]}
@@ -128,14 +153,40 @@ function BlockSet({ blocks }: { blocks: BlockInfo }) {
   );
 }
 
-export function ModuleBlockSequence({ blocks }: { blocks: BlockInfo[] }) {
+export function ModuleBlockSequence({
+  blocks,
+  interactive = true,
+  orientation = "left-to-right",
+}: {
+  blocks: BlockInfo[];
+  interactive?: boolean;
+  orientation?:
+    | "left-to-right"
+    | "top-to-bottom"
+    | "right-to-left"
+    | "bottom-to-top";
+}) {
   const canExtend = useMemo(() => {
     return !blocks.some((block) => block.kind === "sink");
   }, [blocks]);
   return (
-    <div className="flex flex-row gap-px items-end">
+    <div
+      className={cn(
+        "flex gap-px items-end",
+        orientation === "left-to-right" && "flex-row",
+        orientation === "top-to-bottom" && "flex-col",
+        orientation === "right-to-left" && "flex-row-reverse",
+        orientation === "bottom-to-top" && "flex-col-reverse",
+        !interactive && "pointer-events-none select-none opacity-100"
+      )}
+    >
       {blocks.map((block, i) => (
-        <BlockSet key={`${i}-${block.label}`} blocks={block} />
+        <BlockSet
+          key={`${i}-${block.label}`}
+          blocks={block}
+          interactive={interactive}
+          // orientation={orientation}
+        />
       ))}
       {canExtend && (
         <div className="flex flex-col gap-px">
