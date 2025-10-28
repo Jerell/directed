@@ -38,6 +38,26 @@ export const edgesCollection = createCollection(
   })
 );
 
+export const findEdgesBySource = (sourceId: string) =>
+  createCollection(
+    liveQueryCollectionOptions({
+      query: (q) =>
+        q
+          .from({ edge: edgesCollection })
+          .where(({ edge }) => eq(edge.source, sourceId)),
+    })
+  );
+
+export const findEdgesByTarget = (targetId: string) =>
+  createCollection(
+    liveQueryCollectionOptions({
+      query: (q) =>
+        q
+          .from({ edge: edgesCollection })
+          .where(({ edge }) => eq(edge.target, targetId)),
+    })
+  );
+
 export async function seedFlowCollections(
   initialNodes: AppNode[],
   initialEdges: Edge[]
