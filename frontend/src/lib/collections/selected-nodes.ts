@@ -1,5 +1,6 @@
 import { createCollection, liveQueryCollectionOptions, eq } from "@tanstack/db";
 import { nodesCollection } from "./flow";
+import { BranchNodeType, LabeledGroupNodeType } from "../types/flow-nodes";
 
 export const selectedNodesCollection = createCollection(
   liveQueryCollectionOptions({
@@ -10,7 +11,7 @@ export const selectedNodesCollection = createCollection(
   })
 );
 
-export const selectedGroupsCollection = createCollection(
+export const selectedGroupsCollection = createCollection<LabeledGroupNodeType>(
   liveQueryCollectionOptions({
     query: (q) =>
       q
@@ -20,7 +21,7 @@ export const selectedGroupsCollection = createCollection(
   })
 );
 
-export const selectedBranchesCollection = createCollection(
+export const selectedBranchesCollection = createCollection<BranchNodeType>(
   liveQueryCollectionOptions({
     query: (q) =>
       q

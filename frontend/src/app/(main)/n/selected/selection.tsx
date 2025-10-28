@@ -7,6 +7,7 @@ import {
 import { useLiveQuery } from "@tanstack/react-db";
 import { BranchNodeInfo } from "./branch-node-info";
 import { GroupNodeInfo } from "./group-node.info";
+import { isLabeledGroupNode } from "@/lib/types/flow-nodes";
 
 export default function Selection() {
   const { data: selectedNodes = [] } = useLiveQuery(selectedNodesCollection);
@@ -32,9 +33,12 @@ function SelectedGroups() {
 
   return (
     <div className="flex flex-col gap-px">
-      {selectedGroups.map((group) => (
-        <GroupNodeInfo key={group.id} nodeId={group.id} />
-      ))}
+      {selectedGroups.map((group) => {
+        if (isLabeledGroupNode(group)) {
+          return <GroupNodeInfo key={group.id} data={group.data} />;
+        }
+        return null;
+      })}
     </div>
   );
 }
@@ -46,7 +50,7 @@ function SelectedBranches() {
   return (
     <div className="flex flex-col gap-px">
       {selectedBranches.map((branch) => (
-        <BranchNodeInfo key={branch.id} nodeId={branch.id} />
+        <BranchNodeInfo key={branch.id} data={branch.data} />
       ))}
     </div>
   );

@@ -1,6 +1,6 @@
 "use client";
-import { edgesCollection, nodesCollection } from "@/lib/collections/flow";
-import { isBranchNode } from "@/lib/types/flow-nodes";
+import { edgesCollection } from "@/lib/collections/flow";
+import { BranchNodeData } from "@/lib/types/flow-nodes";
 import { eq, useLiveQuery } from "@tanstack/react-db";
 import styles from "@/components/flow/flow.module.css";
 import { cn } from "@/lib/utils";
@@ -9,24 +9,7 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
 
-export function BranchNodeInfo({ nodeId }: { nodeId: string }) {
-  const { data: branch, isLoading } = useLiveQuery(
-    (q) =>
-      q
-        .from({ node: nodesCollection })
-        .where(({ node }) => eq(node.id, nodeId))
-        .findOne(),
-    [nodeId]
-  );
-
-  if (isLoading) {
-    return <div className="px-1 text-sm">Loading...</div>;
-  }
-
-  if (!branch || !isBranchNode(branch)) {
-    return <div className="px-1 text-sm">Branch not found</div>;
-  }
-
+export function BranchNodeInfo({ data }: { data: BranchNodeData }) {
   return (
     <div className={cn("text-sm relative", styles.branchNode)}>
       <div className={cn(styles.corner)} data-position="top-left" />
@@ -34,10 +17,10 @@ export function BranchNodeInfo({ nodeId }: { nodeId: string }) {
       <div className={cn(styles.corner)} data-position="bottom-left" />
       <div className={cn(styles.corner)} data-position="bottom-right" />
       <div className="p-1">
-        <ModuleBlockSequence blocks={branch.data.blocks} />
-        <h3 className="font-medium text-xl">{branch.data.label}</h3>
+        <ModuleBlockSequence blocks={data.blocks} />
+        <h3 className="font-medium text-xl">{data.label}</h3>
         <div className="text-xs">
-          {branch.data.blocks
+          {data.blocks
             .map((block) => {
               if (block.length === 1) {
                 return block.label;
@@ -48,16 +31,16 @@ export function BranchNodeInfo({ nodeId }: { nodeId: string }) {
         </div>
       </div>
 
-      <Inlets nodeId={nodeId} />
-      <Outlets nodeId={nodeId} />
+      <Inlets data={data} />
+      <Outlets data={data} />
     </div>
   );
 
-  function Outlets({ nodeId }: { nodeId: string }) {
+  function Outlets({ data }: { data: BranchNodeData }) {
     const { data: outlets = [] } = useLiveQuery((q) =>
       q
         .from({ edge: edgesCollection })
-        .where(({ edge }) => eq(edge.source, nodeId))
+        .where(({ edge }) => eq(edge.source, data.id))
     );
 
     if (outlets.length === 0) {
@@ -112,11 +95,11 @@ export function BranchNodeInfo({ nodeId }: { nodeId: string }) {
   }
 }
 
-function Inlets({ nodeId }: { nodeId: string }) {
+function Inlets({ data }: { data: BranchNodeData }) {
   const { data: inlets = [] } = useLiveQuery((q) =>
     q
       .from({ edge: edgesCollection })
-      .where(({ edge }) => eq(edge.target, nodeId))
+      .where(({ edge }) => eq(edge.target, data.id))
   );
 
   if (inlets.length === 0) {
