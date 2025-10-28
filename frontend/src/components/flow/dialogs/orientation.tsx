@@ -27,7 +27,7 @@ function RadioOptionCard({
           {children}
         </div>
       </div>
-      <div className="flex flex-row items-center gap-2">
+      <div className="flex flex-row items-center gap-2 mt-2">
         <span>{label}</span>
         <RadioGroupItem value={value} />
       </div>
@@ -75,7 +75,7 @@ export function BranchOrientationDialog({
         </RadioOptionCard>
       </RadioGroup>
 
-      <Separator className="my-1 bg-primary" />
+      <Separator className="my-4 bg-primary" />
 
       <RadioGroup className="grid grid-cols-2 relative p-1 self-center">
         <RadioOptionCard label="Regular" value="regular">
