@@ -18,7 +18,7 @@ function RadioOptionCard({
 }) {
   return (
     <Label className="flex flex-col group" aria-label={label}>
-      <div className="p-1 relative min-h-20 min-w-20 group-has-data-[state='checked']:bg-secondary/10 text-brand-purple-bright">
+      <div className="flex flex-col justify-end p-1 relative min-h-20 min-w-20 group-has-data-[state='checked']:bg-secondary/10 text-brand-purple-bright">
         <div className={cn(styles.corner)} data-position="top-left" />
         <div className={cn(styles.corner)} data-position="top-right" />
         <div className={cn(styles.corner)} data-position="bottom-left" />
@@ -49,11 +49,13 @@ export function BranchOrientationDialog({
           <ModuleBlockSequence blocks={data.blocks} interactive={false} />
         </RadioOptionCard>
         <RadioOptionCard label="Top to Bottom" value="top-to-bottom">
-          <ModuleBlockSequence
+          {/* <ModuleBlockSequence
             blocks={data.blocks}
             interactive={false}
             orientation="top-to-bottom"
-          />
+            detail={false}
+          /> */}
+          <p>Imagine it for now</p>
         </RadioOptionCard>
         <RadioOptionCard label="Right to Left" value="right-to-left">
           <ModuleBlockSequence
@@ -63,11 +65,13 @@ export function BranchOrientationDialog({
           />
         </RadioOptionCard>
         <RadioOptionCard label="Bottom to Top" value="bottom-to-top">
-          <ModuleBlockSequence
+          {/* <ModuleBlockSequence
             blocks={data.blocks}
             interactive={false}
             orientation="bottom-to-top"
-          />
+            detail={false}
+          /> */}
+          <p>Imagine it for now</p>
         </RadioOptionCard>
       </RadioGroup>
 

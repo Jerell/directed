@@ -118,6 +118,7 @@ function BlockSet({
   blocks,
   interactive = true,
   orientation = "left-to-right",
+  detail = true,
 }: {
   blocks: BlockInfo;
   interactive?: boolean;
@@ -126,6 +127,7 @@ function BlockSet({
     | "top-to-bottom"
     | "right-to-left"
     | "bottom-to-top";
+  detail?: boolean;
 }) {
   return (
     <div
@@ -144,11 +146,13 @@ function BlockSet({
         ></div>
       ))}
       <BottomBlock kind={blocks.kind} interactive={interactive} />
-      <div className="h-4 w-4 flex items-center justify-center">
-        <p className="text-[0.45rem] text-primary-foreground text-center font-bold">
-          {blocks.label[0]}
-        </p>
-      </div>
+      {detail && (
+        <div className="h-4 w-4 flex items-center justify-center">
+          <p className="text-[0.45rem] text-primary-foreground text-center font-bold">
+            {blocks.label[0]}
+          </p>
+        </div>
+      )}
     </div>
   );
 }
@@ -157,6 +161,7 @@ export function ModuleBlockSequence({
   blocks,
   interactive = true,
   orientation = "left-to-right",
+  detail = true,
 }: {
   blocks: BlockInfo[];
   interactive?: boolean;
@@ -165,6 +170,7 @@ export function ModuleBlockSequence({
     | "top-to-bottom"
     | "right-to-left"
     | "bottom-to-top";
+  detail?: boolean;
 }) {
   const canExtend = useMemo(() => {
     return !blocks.some((block) => block.kind === "sink");
@@ -186,6 +192,7 @@ export function ModuleBlockSequence({
           blocks={block}
           interactive={interactive}
           // orientation={orientation}
+          detail={detail}
         />
       ))}
       {interactive && canExtend && (
