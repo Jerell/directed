@@ -188,7 +188,7 @@ export function ModuleBlockSequence({
           // orientation={orientation}
         />
       ))}
-      {canExtend && (
+      {interactive && canExtend && (
         <div className="flex flex-col gap-px">
           <button className={cn("h-4 w-4", styles.block)} data-kind="extend">
             +
