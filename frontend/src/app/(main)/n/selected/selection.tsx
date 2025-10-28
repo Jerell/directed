@@ -1,6 +1,7 @@
 "use client";
 import {
   selectedBranchesCollection,
+  selectedGeographyCollection,
   selectedGroupsCollection,
   selectedNodesCollection,
 } from "@/lib/collections/selected-nodes";
@@ -8,6 +9,7 @@ import { useLiveQuery } from "@tanstack/react-db";
 import { BranchNodeInfo } from "./branch-node-info";
 import { GroupNodeInfo } from "./group-node.info";
 import { isLabeledGroupNode } from "@/lib/types/flow-nodes";
+import { GeographicInfo } from "@/components/flow/geography/geographic-info";
 
 export default function Selection() {
   const { data: selectedNodes = [] } = useLiveQuery(selectedNodesCollection);
@@ -22,6 +24,7 @@ export default function Selection() {
 
   return (
     <div className="flex flex-col gap-px">
+      <SelectedGeography />
       <SelectedGroups />
       <SelectedBranches />
     </div>
@@ -52,6 +55,22 @@ function SelectedBranches() {
       {selectedBranches.map((branch) => (
         <BranchNodeInfo key={branch.id} data={branch.data} />
       ))}
+    </div>
+  );
+}
+
+function SelectedGeography() {
+  const { data: selectedGeography = [] } = useLiveQuery(
+    selectedGeographyCollection
+  );
+
+  if (selectedGeography.length === 0) {
+    return null;
+  }
+
+  return (
+    <div className="flex flex-col gap-px">
+      <GeographicInfo />
     </div>
   );
 }

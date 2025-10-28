@@ -17,7 +17,7 @@ export const preset1 = {
     },
     {
       id: "geographic-anchor-1",
-      position: { x: -100, y: -100 },
+      position: { x: -180, y: -170 },
       data: {
         label: "Anchor",
         id: "geographic-anchor-1",
@@ -96,7 +96,7 @@ export const preset1 = {
     },
     {
       id: "branch-3",
-      position: { x: 800, y: 150 },
+      position: { x: 900, y: 150 },
       data: {
         id: "branch-3",
         label: "Branch 3",
@@ -130,7 +130,7 @@ export const preset1 = {
     },
     {
       id: "branch-5",
-      position: { x: 800, y: 320 },
+      position: { x: 800, y: 350 },
       data: {
         id: "branch-5",
         label: "Branch 5",
@@ -191,7 +191,7 @@ export const preset1 = {
     },
     {
       id: "branch-9",
-      position: { x: 1000, y: 80 },
+      position: { x: 1100, y: -20 },
       data: {
         id: "branch-9",
         label: "Branch 9",

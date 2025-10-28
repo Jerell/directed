@@ -1,6 +1,16 @@
-import { createCollection, liveQueryCollectionOptions, eq } from "@tanstack/db";
+import {
+  createCollection,
+  liveQueryCollectionOptions,
+  eq,
+  or,
+} from "@tanstack/db";
 import { nodesCollection } from "./flow";
-import { BranchNodeType, LabeledGroupNodeType } from "../types/flow-nodes";
+import {
+  BranchNodeType,
+  GeographicAnchorNodeType,
+  GeographicWindowNodeType,
+  LabeledGroupNodeType,
+} from "../types/flow-nodes";
 
 export const selectedNodesCollection = createCollection(
   liveQueryCollectionOptions({
@@ -31,6 +41,22 @@ export const selectedBranchesCollection = createCollection<BranchNodeType>(
   })
 );
 
+export const selectedGeographyCollection = createCollection<
+  GeographicAnchorNodeType | GeographicWindowNodeType
+>(
+  liveQueryCollectionOptions({
+    query: (q) =>
+      q
+        .from({ node: nodesCollection })
+        .where(({ node }) =>
+          or(
+            eq(node.type, "geographicAnchorNode"),
+            eq(node.type, "geographicWindowNode")
+          )
+        )
+        .where(({ node }) => eq(node.selected, true)),
+  })
+);
 export const selectedChildrenCollection = createCollection(
   liveQueryCollectionOptions({
     query: (q) =>
