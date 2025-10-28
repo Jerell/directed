@@ -13,10 +13,11 @@ import {
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { useCommands } from "@/context/keybind-provider";
-import { RotateCw, Trash } from "lucide-react";
+import { Pencil, RotateCw, Trash } from "lucide-react";
 import { BranchNodeData } from "@/lib/types/flow-nodes";
 import { openDialog } from "@/context/dialog-provider";
 import { BranchOrientationDialog } from "../dialogs/orientation";
+import { EditBlocksDialog } from "../dialogs/edit-blocks";
 
 export function BranchContextMenu({
   children,
@@ -49,6 +50,16 @@ export function BranchContextMenu({
     );
   }
 
+  function handleEditBlocks() {
+    openDialog(
+      ({ close }) => <EditBlocksDialog onClose={close} data={data} />,
+      {
+        title: `Edit Blocks - ${data.label}`,
+        description: "Edit the blocks of the branch",
+      }
+    );
+  }
+
   const branchCommands = commands.filter((cmd) => cmd.group === "Branch");
   return (
     <ContextMenu>
@@ -63,6 +74,10 @@ export function BranchContextMenu({
             </ContextMenuItem>
           ))}
         </ContextMenuGroup>
+
+        <ContextMenuItem onSelect={handleEditBlocks} inset>
+          <Pencil /> Edit Blocks
+        </ContextMenuItem>
 
         <ContextMenuSeparator />
 
