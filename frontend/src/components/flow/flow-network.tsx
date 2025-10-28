@@ -15,7 +15,7 @@ import {
   Background,
   Panel,
 } from "@xyflow/react";
-import { GroupNode } from "../labeled-group-node";
+import { GroupNode } from "./labeled-group-node";
 import { BranchNode } from "./branch-node";
 import {
   ensureFlowSeeded,

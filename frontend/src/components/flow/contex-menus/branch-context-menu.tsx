@@ -2,15 +2,29 @@ import {
   ContextMenu,
   ContextMenuCheckboxItem,
   ContextMenuContent,
+  ContextMenuGroup,
   ContextMenuItem,
+  ContextMenuLabel,
   ContextMenuSeparator,
   ContextMenuShortcut,
+  ContextMenuSub,
+  ContextMenuSubContent,
+  ContextMenuSubTrigger,
   ContextMenuTrigger,
 } from "@/components/ui/context-menu";
 import { useCommands } from "@/context/keybind-provider";
 import { RotateCw, Trash } from "lucide-react";
+import { BranchNodeData } from "@/lib/types/flow-nodes";
 
-export function BranchContextMenu({ children }: { children: React.ReactNode }) {
+export function BranchContextMenu({
+  children,
+  data,
+  selected,
+}: {
+  children: React.ReactNode;
+  data: BranchNodeData;
+  selected: boolean;
+}) {
   const { runCommand, commands } = useCommands([
     {
       id: "remove-branch",
@@ -21,15 +35,6 @@ export function BranchContextMenu({ children }: { children: React.ReactNode }) {
       group: "Branch",
       icon: <Trash />,
     },
-    {
-      id: "rotate-branch",
-      label: "Rotate branch",
-      run: () => {
-        console.log("Rotate branch");
-      },
-      group: "Branch",
-      icon: <RotateCw />,
-    },
   ]);
 
   const branchCommands = commands.filter((cmd) => cmd.group === "Branch");
@@ -37,15 +42,35 @@ export function BranchContextMenu({ children }: { children: React.ReactNode }) {
     <ContextMenu>
       <ContextMenuTrigger asChild>{children}</ContextMenuTrigger>
       <ContextMenuContent className="w-52">
-        {branchCommands.map((cmd) => (
-          <ContextMenuItem key={cmd.id} inset>
-            {cmd.icon} {cmd.label}
-            <ContextMenuShortcut>{cmd.shortcut}</ContextMenuShortcut>
-          </ContextMenuItem>
-        ))}
+        <ContextMenuGroup>
+          <ContextMenuLabel inset>{data.label}</ContextMenuLabel>
+          {branchCommands.map((cmd) => (
+            <ContextMenuItem key={cmd.id} inset>
+              {cmd.icon} {cmd.label}
+              <ContextMenuShortcut>{cmd.shortcut}</ContextMenuShortcut>
+            </ContextMenuItem>
+          ))}
+        </ContextMenuGroup>
+
         <ContextMenuSeparator />
-        <ContextMenuCheckboxItem checked>Show details</ContextMenuCheckboxItem>
-        <ContextMenuCheckboxItem>Hide details</ContextMenuCheckboxItem>
+
+        <ContextMenuSub>
+          <ContextMenuSubTrigger inset>Appearance</ContextMenuSubTrigger>
+          <ContextMenuSubContent className="w-44">
+            <ContextMenuGroup>
+              <ContextMenuItem>
+                <RotateCw /> Rotate branch
+              </ContextMenuItem>
+            </ContextMenuGroup>
+            <ContextMenuSeparator />
+            <ContextMenuGroup>
+              <ContextMenuCheckboxItem checked>
+                Show details
+              </ContextMenuCheckboxItem>
+              <ContextMenuCheckboxItem>Hide details</ContextMenuCheckboxItem>
+            </ContextMenuGroup>
+          </ContextMenuSubContent>
+        </ContextMenuSub>
       </ContextMenuContent>
     </ContextMenu>
   );

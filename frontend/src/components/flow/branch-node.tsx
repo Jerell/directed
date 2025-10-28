@@ -23,7 +23,7 @@ export function BranchNode({ data, selected }: NodeProps<BranchNodeType>) {
   }, [data.blocks]);
 
   return (
-    <BranchContextMenu>
+    <BranchContextMenu data={data} selected={selected}>
       <div
         className={cn(
           styles.branchNode,
