@@ -23,7 +23,7 @@
   --background: var(--brand-teal-deep);
   --foreground: var(--brand-black);
   --card: oklch(1 0 0);
-  --card-foreground: var(--brand-black);
+  --card-foreground: var(--primary);
   --popover: var(--brand-teal);
   --popover-foreground: var(--primary-foreground);
   --primary: var(--brand-blue);

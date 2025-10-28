@@ -5,6 +5,7 @@ import { BranchHandle } from "./branch-handle";
 import { useMemo } from "react";
 
 import type { BlockInfo, BranchNodeType } from "@/lib/types/flow-nodes";
+import { BranchContextMenu } from "./contex-menus/branch-context-menu";
 
 export function BranchNode({ data, selected }: NodeProps<BranchNodeType>) {
   const countBlocksByKind = useMemo(() => {
@@ -22,50 +23,52 @@ export function BranchNode({ data, selected }: NodeProps<BranchNodeType>) {
   }, [data.blocks]);
 
   return (
-    <div
-      className={cn(
-        styles.branchNode,
-        "hover:bg-secondary/10",
-        "focus-within:bg-secondary/10",
-        selected && "bg-brand-purple-bright/10"
-      )}
-    >
-      <div className={cn(styles.corner)} data-position="top-left" />
-      <div className={cn(styles.corner)} data-position="top-right" />
-      <div className={cn(styles.corner)} data-position="bottom-left" />
-      <div className={cn(styles.corner)} data-position="bottom-right" />
-      {!containsSource && (
-        <BranchHandle
-          type="target"
-          position={Position.Left}
-          data-position={Position.Left}
-          data-handle-point-direction="right"
-        />
-      )}
-      {!containsSink && (
-        <BranchHandle
-          type="source"
-          position={Position.Right}
-          data-position={Position.Right}
-          data-handle-point-direction="right"
-        />
-      )}
-      <div className="relative flex flex-col p-4">
-        <div className="modules">
-          <ModuleBlockSequence blocks={data.blocks} />
-        </div>
-        <div className="info">
-          <h3 className="font-medium text-xl">{data.label}</h3>
-          <div className="text-xs">
-            {Object.entries(countBlocksByKind).map(([kind, count]) => (
-              <p key={kind}>
-                {kind}: {count}
-              </p>
-            ))}
+    <BranchContextMenu>
+      <div
+        className={cn(
+          styles.branchNode,
+          "hover:bg-secondary/10",
+          "focus-within:bg-secondary/10",
+          selected && "bg-brand-purple-bright/10"
+        )}
+      >
+        <div className={cn(styles.corner)} data-position="top-left" />
+        <div className={cn(styles.corner)} data-position="top-right" />
+        <div className={cn(styles.corner)} data-position="bottom-left" />
+        <div className={cn(styles.corner)} data-position="bottom-right" />
+        {!containsSource && (
+          <BranchHandle
+            type="target"
+            position={Position.Left}
+            data-position={Position.Left}
+            data-handle-point-direction="right"
+          />
+        )}
+        {!containsSink && (
+          <BranchHandle
+            type="source"
+            position={Position.Right}
+            data-position={Position.Right}
+            data-handle-point-direction="right"
+          />
+        )}
+        <div className="relative flex flex-col p-4">
+          <div className="modules">
+            <ModuleBlockSequence blocks={data.blocks} />
+          </div>
+          <div className="info">
+            <h3 className="font-medium text-xl">{data.label}</h3>
+            <div className="text-xs">
+              {Object.entries(countBlocksByKind).map(([kind, count]) => (
+                <p key={kind}>
+                  {kind}: {count}
+                </p>
+              ))}
+            </div>
           </div>
         </div>
       </div>
-    </div>
+    </BranchContextMenu>
   );
 }
 

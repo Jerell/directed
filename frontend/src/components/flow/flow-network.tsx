@@ -27,6 +27,7 @@ import {
 import { NodeSearch } from "../node-search";
 import { StatusRow } from "./status/status-row";
 import type { AppNode } from "@/lib/types/flow-nodes";
+import { FlowContextMenu } from "./contex-menus/flow-context-menu";
 
 const nodeTypes = {
   labeledGroupNode: GroupNode,
@@ -64,27 +65,29 @@ export default function FlowNetwork() {
   );
 
   return (
-    <div className="w-full h-full border border-brand-blue">
-      <ReactFlow
-        nodeTypes={nodeTypes}
-        nodes={nodes}
-        edges={edges}
-        onNodesChange={onNodesChange}
-        onEdgesChange={onEdgesChange}
-        onConnect={onConnect}
-        fitView
-      >
-        <MiniMap position="bottom-left" />
-        <Controls position="top-left" />
-        <Background />
-        <Panel
-          className="flex flex-col gap-1 p-px text-foreground items-end"
-          position="top-right"
+    <FlowContextMenu>
+      <div className="w-full h-full border border-brand-blue">
+        <ReactFlow
+          nodeTypes={nodeTypes}
+          nodes={nodes}
+          edges={edges}
+          onNodesChange={onNodesChange}
+          onEdgesChange={onEdgesChange}
+          onConnect={onConnect}
+          fitView
         >
-          <StatusRow />
-          <NodeSearch />
-        </Panel>
-      </ReactFlow>
-    </div>
+          <MiniMap position="bottom-left" />
+          <Controls position="top-left" />
+          <Background />
+          <Panel
+            className="flex flex-col gap-1 p-px text-foreground items-end"
+            position="top-right"
+          >
+            <StatusRow />
+            <NodeSearch />
+          </Panel>
+        </ReactFlow>
+      </div>
+    </FlowContextMenu>
   );
 }
