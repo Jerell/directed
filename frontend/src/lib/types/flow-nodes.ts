@@ -30,6 +30,16 @@ export type GeographicAnchorNodeData = {
   label: ReactNode;
 };
 
+export type GeographicWindowNodeData = {
+  id: string;
+  label: ReactNode;
+};
+
+export type GeographicWindowNodeType = Node<
+  GeographicWindowNodeData,
+  "geographicWindowNode"
+>;
+
 export type GeographicAnchorNodeType = Node<
   GeographicAnchorNodeData,
   "geographicAnchorNode"
@@ -38,7 +48,8 @@ export type GeographicAnchorNodeType = Node<
 export type AppNode =
   | BranchNodeType
   | LabeledGroupNodeType
-  | GeographicAnchorNodeType;
+  | GeographicAnchorNodeType
+  | GeographicWindowNodeType;
 
 export type AppEdge = Edge<
   {
@@ -46,6 +57,12 @@ export type AppEdge = Edge<
   },
   "weightedEdge"
 >;
+
+export function isGeographicWindowNode(
+  node: AppNode
+): node is GeographicWindowNodeType {
+  return node.type === "geographicWindowNode";
+}
 
 export function isGeographicAnchorNode(
   node: AppNode

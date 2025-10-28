@@ -29,6 +29,32 @@ export const preset1 = {
       selectable: false,
     },
     {
+      id: "geographic-window-1",
+      position: { x: 800, y: -250 },
+      data: {
+        label: "Window",
+        id: "geographic-window-1",
+      },
+      width: 300,
+      height: 200,
+      type: "geographicWindowNode",
+      draggable: false,
+      selectable: false,
+    },
+    {
+      id: "geographic-window-2",
+      position: { x: 1300, y: 150 },
+      data: {
+        label: "Window",
+        id: "geographic-window-2",
+      },
+      width: 200,
+      height: 100,
+      type: "geographicWindowNode",
+      draggable: false,
+      selectable: false,
+    },
+    {
       id: "branch-1",
       position: { x: 20, y: 30 },
       data: {

@@ -29,9 +29,11 @@ import { StatusRow } from "./status/status-row";
 import type { AppEdge, AppNode } from "@/lib/types/flow-nodes";
 import { FlowContextMenu } from "./contex-menus/flow-context-menu";
 import { GeographicAnchorNode } from "./geography/geographic-anchor-node";
+import { GeographicWindowNode } from "./geography/geographic-window-node";
 
 const nodeTypes = {
   geographicAnchorNode: GeographicAnchorNode,
+  geographicWindowNode: GeographicWindowNode,
   labeledGroupNode: GroupNode,
   branchNode: BranchNode,
 };
