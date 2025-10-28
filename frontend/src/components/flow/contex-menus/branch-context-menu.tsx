@@ -43,7 +43,7 @@ export function BranchContextMenu({
     openDialog(
       ({ close }) => <BranchOrientationDialog onClose={close} data={data} />,
       {
-        title: "Orientation",
+        title: `Orientation - ${data.label}`,
         description: "Configure the orientation of the branch",
       }
     );
