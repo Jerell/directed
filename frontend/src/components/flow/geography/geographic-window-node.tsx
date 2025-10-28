@@ -29,7 +29,7 @@ export const GeographicWindowNodeLabel = forwardRef<
 GeographicWindowNodeLabel.displayName = "GeographicWindowNodeLabel";
 
 import type { GeographicWindowNodeType } from "@/lib/types/flow-nodes";
-import { LabeledGroupContextMenu } from "../contex-menus/labeled-group-context-menu";
+import { GeographicContextMenu } from "../contex-menus/geographic-context-menu";
 
 export type GeographicWindowNodeProps = NodeProps<GeographicWindowNodeType> & {
   position?: PanelPosition;
@@ -42,7 +42,7 @@ export const GeographicWindowNode = forwardRef<
   GeographicWindowNodeProps
 >(({ data, position, selected }, ref) => {
   return (
-    <LabeledGroupContextMenu data={data} selected={selected}>
+    <GeographicContextMenu data={data} selected={selected}>
       <BaseNode
         ref={ref}
         className={cn(
@@ -56,7 +56,7 @@ export const GeographicWindowNode = forwardRef<
           )}
         </Panel>
       </BaseNode>
-    </LabeledGroupContextMenu>
+    </GeographicContextMenu>
   );
 });
 
