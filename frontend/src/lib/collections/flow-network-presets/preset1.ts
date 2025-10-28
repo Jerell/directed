@@ -26,6 +26,7 @@ export const preset1 = {
       height: 500,
       type: "geographicAnchorNode",
       draggable: false,
+      selectable: false,
     },
     {
       id: "geographic-window-1",
@@ -38,6 +39,7 @@ export const preset1 = {
       height: 200,
       type: "geographicWindowNode",
       draggable: false,
+      selectable: false,
     },
     {
       id: "geographic-window-2",
@@ -50,6 +52,7 @@ export const preset1 = {
       height: 100,
       type: "geographicWindowNode",
       draggable: false,
+      selectable: false,
     },
     {
       id: "branch-1",

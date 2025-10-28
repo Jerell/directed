@@ -1,6 +1,6 @@
 "use client";
 import { edgesCollection } from "@/lib/collections/flow";
-import { BranchNodeData } from "@/lib/types/flow-nodes";
+import { BlockInfo, BranchNodeData } from "@/lib/types/flow-nodes";
 import { eq, useLiveQuery } from "@tanstack/react-db";
 import styles from "@/components/flow/flow.module.css";
 import { cn } from "@/lib/utils";
@@ -9,6 +9,39 @@ import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
 import { ArrowRightIcon } from "lucide-react";
 
+function BranchBlockProperties({ block }: { block: BlockInfo }) {
+  return (
+    <div className="text-xs flex flex-row bg-brand-blue/40 text-primary-foreground">
+      <div className="p-4 min-w-36 h-full flex flex-col flex-1 grow">
+        <p>{block.label}</p>
+        <p>x{block.length}</p>
+      </div>
+      <div className="flex flex-col w-full border-l border-primary text-primary-foreground">
+        <div className="p-4 bg-brand-purple/30 w-full">
+          <p>Header</p>
+        </div>
+
+        <div className="p-4 bg-brand-purple-bright/50 h-full w-full flex flex-col gap-1">
+          <p>Input fields for properties will go here.</p>
+          <p>
+            I intend to allow properties defined at multiple levels and
+            inherited from wider scopes.
+          </p>
+          <p>Blocks represent modules or cost items.</p>
+          <p>
+            If a property is not defined for a block, it will be inherited from
+            the branch level.
+          </p>
+          <p>
+            Branches will similarly inherit properties from the parent group or
+            global level.
+          </p>
+        </div>
+      </div>
+    </div>
+  );
+}
+
 export function BranchNodeInfo({ data }: { data: BranchNodeData }) {
   return (
     <div className={cn("text-sm relative", styles.branchNode)}>
@@ -16,22 +49,20 @@ export function BranchNodeInfo({ data }: { data: BranchNodeData }) {
       <div className={cn(styles.corner)} data-position="top-right" />
       <div className={cn(styles.corner)} data-position="bottom-left" />
       <div className={cn(styles.corner)} data-position="bottom-right" />
-      <div className="p-1">
-        <ModuleBlockSequence blocks={data.blocks} />
-        <h3 className="font-medium text-xl">{data.label}</h3>
-        <div className="text-xs">
-          {data.blocks
-            .map((block) => {
-              if (block.length === 1) {
-                return block.label;
-              }
-              return `${block.label} (x${block.length})`;
-            })
-            .join(", ")}
+      <Inlets data={data} />
+      <div className="">
+        <div className="p-1">
+          <ModuleBlockSequence blocks={data.blocks} />
+        </div>
+
+        <h3 className="font-medium text-xl p-1">{data.label}</h3>
+        <div className="-m-px">
+          {data.blocks.map((block, i) => (
+            <BranchBlockProperties key={`${block.label}-${i}`} block={block} />
+          ))}
         </div>
       </div>
 
-      <Inlets data={data} />
       <Outlets data={data} />
     </div>
   );
@@ -50,7 +81,7 @@ export function BranchNodeInfo({ data }: { data: BranchNodeData }) {
     if (outlets.length === 1) {
       return (
         <>
-          <Separator className="my-px bg-primary" />
+          <Separator className="mb-px bg-primary" />
           <h6 className="text-xs px-1 text-primary-foreground">Outlet</h6>
           <Separator className="my-px bg-primary" />
           <div className="w-full overflow-x-auto p-px">
