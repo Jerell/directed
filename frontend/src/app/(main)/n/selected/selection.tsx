@@ -17,6 +17,7 @@ import { cn } from "@/lib/utils";
 import { ModuleBlockSequence } from "@/components/flow/branch-node";
 import { Separator } from "@/components/ui/separator";
 import { Button } from "@/components/ui/button";
+import { ArrowRightIcon } from "lucide-react";
 
 export default function Selection() {
   const { data: selectedNodes = [] } = useLiveQuery(selectedNodesCollection);
@@ -143,6 +144,8 @@ function BranchNodeInfo({ nodeId }: { nodeId: string }) {
         .where(({ edge }) => eq(edge.source, nodeId))
     );
 
+    console.log(nodeId, { outlets });
+
     if (outlets.length === 0) {
       return null;
     }
@@ -178,7 +181,13 @@ function BranchNodeInfo({ nodeId }: { nodeId: string }) {
         <div className="w-full overflow-x-auto p-px">
           <div className="flex flex-row gap-px">
             {outlets.map((outlet) => (
-              <Button key={outlet.id} variant="link" className="text-sm p-1">
+              <Button
+                key={outlet.id}
+                variant="ghost"
+                className="text-sm p-1 gap-0"
+              >
+                {outlet.data?.weight ?? 1}
+                <ArrowRightIcon />
                 {outlet.target}
               </Button>
             ))}

@@ -26,7 +26,7 @@ import {
 } from "@/lib/collections/flow";
 import { NodeSearch } from "../node-search";
 import { StatusRow } from "./status/status-row";
-import type { AppNode } from "@/lib/types/flow-nodes";
+import type { AppEdge, AppNode } from "@/lib/types/flow-nodes";
 import { FlowContextMenu } from "./contex-menus/flow-context-menu";
 
 const nodeTypes = {
@@ -51,7 +51,7 @@ export default function FlowNetwork() {
   const onEdgesChange = useCallback(
     (changes: EdgeChange[]) => {
       const updated = applyEdgeChanges(changes, edges);
-      writeEdgesToCollection(updated);
+      writeEdgesToCollection(updated as AppEdge[]);
     },
     [edges]
   );
@@ -59,7 +59,7 @@ export default function FlowNetwork() {
   const onConnect = useCallback(
     (params: Connection) => {
       const updated = addEdge(params, edges);
-      writeEdgesToCollection(updated);
+      writeEdgesToCollection(updated as AppEdge[]);
     },
     [edges]
   );

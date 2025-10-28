@@ -1,5 +1,4 @@
-import type { Edge } from "@xyflow/react";
-import type { AppNode } from "@/lib/types/flow-nodes";
+import type { AppEdge, AppNode } from "@/lib/types/flow-nodes";
 
 export const preset1 = {
   id: "preset-1",
@@ -166,11 +165,41 @@ export const preset1 = {
     },
   ] satisfies AppNode[],
   edges: [
-    { id: "branch-1_branch-2", source: "branch-1", target: "branch-2" },
-    { id: "branch-2_branch-3", source: "branch-2", target: "branch-3" },
-    { id: "branch-4_branch-2", source: "branch-4", target: "branch-2" },
-    { id: "branch-2_branch-5", source: "branch-2", target: "branch-5" },
-    { id: "branch-5_branch-6", source: "branch-5", target: "branch-6" },
-    { id: "branch-8_branch-5", source: "branch-8", target: "branch-5" },
-  ] satisfies Edge[],
+    {
+      id: "branch-1_branch-2",
+      source: "branch-1",
+      target: "branch-2",
+      data: { weight: 1 },
+    },
+    {
+      id: "branch-2_branch-3",
+      source: "branch-2",
+      target: "branch-3",
+      data: { weight: 1 },
+    },
+    {
+      id: "branch-4_branch-2",
+      source: "branch-4",
+      target: "branch-2",
+      data: { weight: 1 },
+    },
+    {
+      id: "branch-2_branch-5",
+      source: "branch-2",
+      target: "branch-5",
+      data: { weight: 3 },
+    },
+    {
+      id: "branch-5_branch-6",
+      source: "branch-5",
+      target: "branch-6",
+      data: { weight: 1 },
+    },
+    {
+      id: "branch-8_branch-5",
+      source: "branch-8",
+      target: "branch-5",
+      data: { weight: 1 },
+    },
+  ] satisfies AppEdge[],
 };

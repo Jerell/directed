@@ -1,4 +1,4 @@
-import type { Node } from "@xyflow/react";
+import type { Edge, Node } from "@xyflow/react";
 import type { ReactNode } from "react";
 
 export type BlockInfo = {
@@ -26,6 +26,13 @@ export type LabeledGroupNodeType = Node<
 >;
 
 export type AppNode = BranchNodeType | LabeledGroupNodeType;
+
+export type AppEdge = Edge<
+  {
+    weight: number;
+  },
+  "weightedEdge"
+>;
 
 export function isLabeledGroupNode(
   node: AppNode

@@ -6,8 +6,7 @@ import {
   liveQueryCollectionOptions,
   localStorageCollectionOptions,
 } from "@tanstack/db";
-import type { Edge } from "@xyflow/react";
-import type { AppNode } from "@/lib/types/flow-nodes";
+import type { AppEdge, AppNode } from "@/lib/types/flow-nodes";
 import { preset1 } from "./flow-network-presets/preset1";
 import { FlowPreset } from "./flow-network-presets";
 
@@ -31,7 +30,7 @@ export const findById = (nodeId: string) =>
   );
 
 export const edgesCollection = createCollection(
-  localStorageCollectionOptions<Edge>({
+  localStorageCollectionOptions<AppEdge>({
     id: "flow:edges",
     storageKey: "flow:edges",
     getKey: (edge) => edge.id,
@@ -60,7 +59,7 @@ export const findEdgesByTarget = (targetId: string) =>
 
 export async function seedFlowCollections(
   initialNodes: AppNode[],
-  initialEdges: Edge[]
+  initialEdges: AppEdge[]
 ) {
   // Ensure sync starts before we inspect size
   await Promise.all([nodesCollection.preload(), edgesCollection.preload()]);
@@ -168,7 +167,7 @@ export function writeNodesToCollection(updated: AppNode[]): void {
   });
 }
 
-export function writeEdgesToCollection(updated: Edge[]): void {
+export function writeEdgesToCollection(updated: AppEdge[]): void {
   const prevKeys = new Set<string>(
     Array.from(edgesCollection.keys()) as string[]
   );
