@@ -18,6 +18,8 @@ import {
   useCommands,
 } from "@/context/keybind-provider";
 import type { DialogAPI } from "@/context/keybind-provider";
+import { openDialog } from "@/context/dialog-provider";
+import { UploadScreen } from "./ui/upload-screen";
 
 export function GlobalCommandDialog() {
   const {
@@ -40,9 +42,12 @@ export function GlobalCommandDialog() {
     {
       id: "open-file",
       label: "Open file",
-      run: (dialog: DialogAPI) => {
-        console.log("Open file");
-        dialog.close();
+      run: (palette: DialogAPI) => {
+        palette.close();
+        openDialog(({ close }) => <UploadScreen onClose={close} />, {
+          title: "Upload a file",
+          description: "Select a file to open",
+        });
       },
       shortcut: "Mod+O",
       group: "Suggestions",
