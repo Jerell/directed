@@ -32,7 +32,7 @@ export const preset1 = {
       id: "geographic-window-1",
       position: { x: 800, y: -250 },
       data: {
-        label: "Window",
+        label: "Window 1",
         id: "geographic-window-1",
       },
       width: 300,
@@ -45,7 +45,7 @@ export const preset1 = {
       id: "geographic-window-2",
       position: { x: 1300, y: 150 },
       data: {
-        label: "Window",
+        label: "Window 2",
         id: "geographic-window-2",
       },
       width: 200,
