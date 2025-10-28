@@ -44,7 +44,7 @@ export function BranchOrientationDialog({
 }) {
   return (
     <div className={cn(styles.branchNode, "relative flex flex-col gap-1")}>
-      <RadioGroup className="grid grid-cols-2 lg:grid-cols-4 justify-center relative p-1">
+      <RadioGroup className="grid grid-cols-2 lg:grid-cols-4 items-end relative p-1">
         <RadioOptionCard label="Left to Right" value="left-to-right">
           <ModuleBlockSequence blocks={data.blocks} interactive={false} />
         </RadioOptionCard>
