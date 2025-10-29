@@ -25,7 +25,7 @@ export function LabeledGroupContextMenu({
   const { runCommand, commands } = useCommands([
     {
       id: "remove-labeled-group",
-      label: "Remove",
+      label: "Remove group",
       run: () => {
         console.log("Remove labeled group");
       },

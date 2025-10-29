@@ -28,7 +28,7 @@ export function GeographicContextMenu({
   const { runCommand, commands } = useCommands([
     {
       id: "remove-geographic-anchor",
-      label: "Remove",
+      label: "Remove map",
       run: () => {
         console.log("Remove geographic anchor");
       },
