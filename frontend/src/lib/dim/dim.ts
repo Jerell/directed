@@ -296,3 +296,19 @@ export function defineConst(name: string, expr: string): void {
   }
   defineConstCore(runtime, name, expr);
 }
+
+export function clearConst(name: string): void {
+  if (!runtime) {
+    throw new Error("dim not initialized. Call initDim() first.");
+  }
+  const { ptr, len } = writeUtf8(runtime, name);
+  runtime.dim_clear(ptr, len);
+  runtime.dim_free(ptr, len);
+}
+
+export function clearAllConsts(): void {
+  if (!runtime) {
+    throw new Error("dim not initialized. Call initDim() first.");
+  }
+  runtime.dim_clear_all();
+}
