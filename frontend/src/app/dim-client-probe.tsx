@@ -4,7 +4,7 @@ import { useMemo } from "react";
 
 import { useDim } from "@/lib/dim/use-dim";
 
-const inputExpression = "2 m * 300 m as m^2:scientific";
+const inputExpression = "2.3847 m * 30.5 m as in^2:engineering";
 export function DimClientProbe() {
   const expressions = useMemo(() => [inputExpression], []);
   const { status, results, error } = useDim(expressions);
