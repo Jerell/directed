@@ -54,7 +54,9 @@ export function DimConstantsForm(props: {
   }, []);
 
   const onRemoveRow = useCallback((id: string) => {
-    setRows((prev) => (prev.length > 1 ? prev.filter((r) => r.id !== id) : prev));
+    setRows((prev) =>
+      prev.length > 1 ? prev.filter((r) => r.id !== id) : prev
+    );
   }, []);
 
   const onSave = useCallback(async () => {
@@ -86,15 +88,24 @@ export function DimConstantsForm(props: {
           <Button onClick={onAddRow} variant="outline" size="sm" type="button">
             Add row
           </Button>
-          <Button onClick={onSave} disabled={!ready || saving} size="sm" type="button">
+          <Button
+            onClick={onSave}
+            disabled={!ready || saving}
+            size="sm"
+            type="button"
+          >
             {saving ? "Saving…" : "Save"}
           </Button>
         </div>
       </div>
 
       <div className="grid grid-cols-12 items-center gap-2">
-        <div className="col-span-4 text-xs font-medium text-muted-foreground">Name</div>
-        <div className="col-span-7 text-xs font-medium text-muted-foreground">Expression</div>
+        <div className="col-span-4 text-xs font-medium text-muted-foreground">
+          Name
+        </div>
+        <div className="col-span-7 text-xs font-medium text-muted-foreground">
+          Expression
+        </div>
         <div className="col-span-1" />
         {rows.map((row) => (
           <div key={row.id} className="contents">
@@ -138,5 +149,3 @@ export function DimConstantsForm(props: {
 }
 
 export default DimConstantsForm;
-
-
