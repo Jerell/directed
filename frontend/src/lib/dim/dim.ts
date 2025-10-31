@@ -1,4 +1,4 @@
-import { init, WASI } from "@wasmer/wasi";
+// Plain WebAssembly instantiation without WASI so it works on server and client
 
 type DimExports = {
   memory: WebAssembly.Memory;
@@ -28,24 +28,175 @@ let runtime: DimRuntime | null = null;
 export async function initDim(): Promise<void> {
   if (!initPromise) {
     initPromise = (async () => {
-      await init();
-      const wasi = new WASI({});
-      let mod: WebAssembly.Module;
       const isBrowser =
         typeof window !== "undefined" && typeof document !== "undefined";
+      let instance: WebAssembly.Instance & { exports: DimExports };
       if (isBrowser) {
-        const url = new URL("./dim_wasm.wasm", import.meta.url);
-        mod = await WebAssembly.compileStreaming(fetch(url.href));
+        const res = await fetch("/dim/dim_wasm.wasm");
+        const bytes = await res.arrayBuffer();
+        let currentMemory: WebAssembly.Memory | null = null;
+        const wasiImports = {
+          wasi_snapshot_preview1: {
+            fd_write: (
+              _fd: number,
+              iovPtr: number,
+              iovCnt: number,
+              nwrittenPtr: number
+            ) => {
+              if (!currentMemory) return 0;
+              const dv = new DataView(currentMemory.buffer);
+              let total = 0;
+              for (let i = 0; i < iovCnt; i++) {
+                const base = iovPtr + i * 8;
+                const len = dv.getUint32(base + 4, true);
+                total += len;
+              }
+              dv.setUint32(nwrittenPtr, total, true);
+              return 0;
+            },
+            random_get: (bufPtr: number, bufLen: number) => {
+              if (!currentMemory) return 0;
+              const out = new Uint8Array(currentMemory.buffer, bufPtr, bufLen);
+              const globalWithCrypto = globalThis as unknown as {
+                crypto?: { getRandomValues?: (arr: Uint8Array) => void };
+              };
+              const cryptoObj = globalWithCrypto.crypto;
+              if (
+                cryptoObj &&
+                typeof cryptoObj.getRandomValues === "function"
+              ) {
+                cryptoObj.getRandomValues(out);
+              } else {
+                for (let i = 0; i < bufLen; i++) out[i] = 0;
+              }
+              return 0;
+            },
+            fd_close: () => 0,
+            fd_seek: () => 0,
+            fd_read: () => 0,
+            fd_pread: () => 0,
+            fd_pwrite: () => 0,
+            fd_fdstat_get: () => 0,
+            fd_filestat_get: () => 0,
+            path_filestat_get: () => 0,
+            fd_prestat_get: () => 0,
+            fd_prestat_dir_name: () => 0,
+            path_open: () => 0,
+            environ_sizes_get: (countPtr: number, bufSizePtr: number) => {
+              if (!currentMemory) return 0;
+              const dv = new DataView(currentMemory.buffer);
+              dv.setUint32(countPtr, 0, true);
+              dv.setUint32(bufSizePtr, 0, true);
+              return 0;
+            },
+            environ_get: () => 0,
+            args_sizes_get: (argcPtr: number, argvBufSizePtr: number) => {
+              if (!currentMemory) return 0;
+              const dv = new DataView(currentMemory.buffer);
+              dv.setUint32(argcPtr, 0, true);
+              dv.setUint32(argvBufSizePtr, 0, true);
+              return 0;
+            },
+            args_get: () => 0,
+            clock_time_get: () => 0,
+            proc_exit: (_code: number) => 0,
+          },
+        } as WebAssembly.Imports;
+        const result = (await WebAssembly.instantiate(
+          bytes,
+          wasiImports
+        )) as WebAssembly.WebAssemblyInstantiatedSource;
+        const inst = result.instance as unknown as WebAssembly.Instance & {
+          exports: DimExports;
+        };
+        currentMemory = (inst.exports as DimExports).memory;
+        instance = inst;
       } else {
         const { readFile } = await import("node:fs/promises");
-        const url = new URL("./dim_wasm.wasm", import.meta.url);
-        const bytes = await readFile(url);
-        mod = await WebAssembly.compile(bytes);
+        const { join } = await import("node:path");
+        const filePath = join(process.cwd(), "public", "dim", "dim_wasm.wasm");
+        const buf = await readFile(filePath);
+        const bytes = buf.buffer.slice(
+          buf.byteOffset,
+          buf.byteOffset + buf.byteLength
+        );
+        let currentMemory: WebAssembly.Memory | null = null;
+        const wasiImports = {
+          wasi_snapshot_preview1: {
+            fd_write: (
+              _fd: number,
+              iovPtr: number,
+              iovCnt: number,
+              nwrittenPtr: number
+            ) => {
+              if (!currentMemory) return 0;
+              const dv = new DataView(currentMemory.buffer);
+              let total = 0;
+              for (let i = 0; i < iovCnt; i++) {
+                const base = iovPtr + i * 8;
+                const len = dv.getUint32(base + 4, true);
+                total += len;
+              }
+              dv.setUint32(nwrittenPtr, total, true);
+              return 0;
+            },
+            random_get: (bufPtr: number, bufLen: number) => {
+              if (!currentMemory) return 0;
+              const out = new Uint8Array(currentMemory.buffer, bufPtr, bufLen);
+              const globalWithCrypto = globalThis as unknown as {
+                crypto?: { getRandomValues?: (arr: Uint8Array) => void };
+              };
+              const cryptoObj = globalWithCrypto.crypto;
+              if (
+                cryptoObj &&
+                typeof cryptoObj.getRandomValues === "function"
+              ) {
+                cryptoObj.getRandomValues(out);
+              } else {
+                for (let i = 0; i < bufLen; i++) out[i] = 0;
+              }
+              return 0;
+            },
+            fd_close: () => 0,
+            fd_seek: () => 0,
+            fd_read: () => 0,
+            fd_pread: () => 0,
+            fd_pwrite: () => 0,
+            fd_fdstat_get: () => 0,
+            fd_filestat_get: () => 0,
+            path_filestat_get: () => 0,
+            fd_prestat_get: () => 0,
+            fd_prestat_dir_name: () => 0,
+            path_open: () => 0,
+            environ_sizes_get: (countPtr: number, bufSizePtr: number) => {
+              if (!currentMemory) return 0;
+              const dv = new DataView(currentMemory.buffer);
+              dv.setUint32(countPtr, 0, true);
+              dv.setUint32(bufSizePtr, 0, true);
+              return 0;
+            },
+            environ_get: () => 0,
+            args_sizes_get: (argcPtr: number, argvBufSizePtr: number) => {
+              if (!currentMemory) return 0;
+              const dv = new DataView(currentMemory.buffer);
+              dv.setUint32(argcPtr, 0, true);
+              dv.setUint32(argvBufSizePtr, 0, true);
+              return 0;
+            },
+            args_get: () => 0,
+            clock_time_get: () => 0,
+            proc_exit: (_code: number) => 0,
+          },
+        } as WebAssembly.Imports;
+        const result = (await WebAssembly.instantiate(
+          bytes,
+          wasiImports
+        )) as WebAssembly.WebAssemblyInstantiatedSource;
+        instance = result.instance as unknown as WebAssembly.Instance & {
+          exports: DimExports;
+        };
+        currentMemory = (instance.exports as DimExports).memory;
       }
-      const instance = (await wasi.instantiate(
-        mod,
-        {}
-      )) as WebAssembly.Instance & { exports: DimExports };
 
       const types = Object.fromEntries(
         Object.entries(instance.exports as Record<string, unknown>).map(
