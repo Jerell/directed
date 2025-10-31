@@ -9,7 +9,9 @@ export function DimClientProbe() {
     (async () => {
       try {
         await initDim();
-        const out = evalDim("2 m * 3 m");
+        const input = "2 m * 300 m as m^2:scientific";
+        console.log("[DimClient] input =", input);
+        const out = evalDim(input);
         if (!cancelled) {
           // Client-side demonstration log
           console.log("[DimClient] 2 m * 3 m =", out);
