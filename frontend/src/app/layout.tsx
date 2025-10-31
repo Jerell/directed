@@ -29,9 +29,9 @@ export default async function RootLayout({
 }>) {
   await initDim();
   try {
-    const out = evalDim("2 m * 3 m");
+    const out = evalDim("20 m * 40 m");
     // Server-side demonstration log
-    console.log("[DimServer] 2 m * 3 m =", out);
+    console.log("[DimServer] 20 m * 40 m =", out);
   } catch (e) {
     console.error("[DimServer] dim init/eval failed", e);
   }

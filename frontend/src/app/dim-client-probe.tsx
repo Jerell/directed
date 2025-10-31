@@ -4,8 +4,9 @@ import { useMemo } from "react";
 
 import { useDim } from "@/lib/dim/use-dim";
 
+const inputExpression = "2 m * 300 m as m^2:scientific";
 export function DimClientProbe() {
-  const expressions = useMemo(() => ["2 m * 300 m as m^2:scientific"], []);
+  const expressions = useMemo(() => [inputExpression], []);
   const { status, results, error } = useDim(expressions);
 
   if (status === "success") {
@@ -22,7 +23,7 @@ export function DimClientProbe() {
 function ReliesOnResults(props: { results: string[] }) {
   const { results } = props;
 
-  console.log("[DimResults] results", results);
+  console.log("[DimResults] results", inputExpression, "=", results);
 
   return null;
 }
