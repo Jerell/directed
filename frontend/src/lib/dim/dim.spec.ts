@@ -1,9 +1,8 @@
 import { beforeAll, describe, expect, it } from "vitest";
-import { Effect } from "effect";
-import { initDimEffect, evalDim, defineConst } from "./dim";
+import { initDim, evalDim, defineConst } from "./dim";
 
 beforeAll(async () => {
-  await Effect.runPromise(initDimEffect);
+  await initDim();
 });
 
 describe("dim wasm", () => {

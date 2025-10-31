@@ -1,5 +1,4 @@
 import { init, WASI } from "@wasmer/wasi";
-import { Effect } from "effect";
 
 type DimExports = {
   memory: WebAssembly.Memory;
@@ -23,10 +22,10 @@ type DimExports = {
 
 type DimRuntime = DimExports & { enc: TextEncoder; dec: TextDecoder };
 
-let initPromise: Promise<DimRuntime> | null = null;
+let initPromise: Promise<void> | null = null;
 let runtime: DimRuntime | null = null;
 
-async function initDim(): Promise<DimRuntime> {
+export async function initDim(): Promise<void> {
   if (!initPromise) {
     initPromise = (async () => {
       await init();
@@ -48,7 +47,6 @@ async function initDim(): Promise<DimRuntime> {
         {}
       )) as WebAssembly.Instance & { exports: DimExports };
 
-      // Verify required exports exist
       const types = Object.fromEntries(
         Object.entries(instance.exports as Record<string, unknown>).map(
           ([k, v]) => [k, typeof v]
@@ -83,7 +81,7 @@ async function initDim(): Promise<DimRuntime> {
         dim_clear_all,
       } = instance.exports;
 
-      return {
+      runtime = {
         memory,
         dim_alloc,
         dim_free,
@@ -96,8 +94,7 @@ async function initDim(): Promise<DimRuntime> {
       };
     })();
   }
-  runtime = await initPromise;
-  return runtime;
+  return initPromise;
 }
 
 function writeUtf8(rt: DimRuntime, str: string) {
@@ -107,12 +104,7 @@ function writeUtf8(rt: DimRuntime, str: string) {
   return { ptr, len: bytes.length };
 }
 
-export function evalDimSync(expr: string): string {
-  if (!initPromise) {
-    throw new Error("dim not initialized. Call initDimEffect() first.");
-  }
-  const rt = runtime;
-  if (!rt) throw new Error("dim runtime missing");
+function evalDimCore(rt: DimRuntime, expr: string): string {
   const { ptr: inPtr, len: inLen } = writeUtf8(rt, expr);
   const scratch = rt.dim_alloc(8);
   const outPtrPtr = scratch;
@@ -133,12 +125,7 @@ export function evalDimSync(expr: string): string {
   return text;
 }
 
-export function defineConstSync(name: string, expr: string): void {
-  if (!initPromise) {
-    throw new Error("dim not initialized. Call initDimEffect() first.");
-  }
-  const rt = runtime;
-  if (!rt) throw new Error("dim runtime missing");
+function defineConstCore(rt: DimRuntime, name: string, expr: string): void {
   const n = writeUtf8(rt, name);
   const v = writeUtf8(rt, expr);
   const rc = rt.dim_define(n.ptr, n.len, v.ptr, v.len);
@@ -147,19 +134,16 @@ export function defineConstSync(name: string, expr: string): void {
   if (rc !== 0) throw new Error("dim_define failed");
 }
 
-export const initDimEffect = Effect.tryPromise({
-  try: async () => {
-    await initDim();
-  },
-  catch: (e) => (e instanceof Error ? e : new Error(String(e))),
-});
+export function evalDim(expr: string): string {
+  if (!runtime) {
+    throw new Error("dim not initialized. Call initDim() first.");
+  }
+  return evalDimCore(runtime, expr);
+}
 
-export const evalDimEffect = (expr: string) =>
-  initDimEffect.pipe(Effect.map(() => evalDimSync(expr)));
-
-export const defineConstEffect = (name: string, expr: string) =>
-  initDimEffect.pipe(Effect.map(() => defineConstSync(name, expr)));
-
-// Convenience sync aliases after init
-export const evalDim = evalDimSync;
-export const defineConst = defineConstSync;
+export function defineConst(name: string, expr: string): void {
+  if (!runtime) {
+    throw new Error("dim not initialized. Call initDim() first.");
+  }
+  defineConstCore(runtime, name, expr);
+}
