@@ -4,6 +4,7 @@ import "@xyflow/react/dist/style.css";
 import "./globals.css";
 import { RootContextProvider } from "../context/root-context-provider";
 import { initDim, evalDim } from "../lib/dim/dim";
+import DimInit from "./dim-init";
 import { DimClientProbe } from "./dim-client-probe";
 
 const geistSans = Geist({
@@ -40,6 +41,7 @@ export default async function RootLayout({
         <body
           className={`${geistSans.variable} ${geistMono.variable} antialiased flex h-screen p-1! font-mono`}
         >
+          <DimInit />
           <DimClientProbe />
           {children}
         </body>

@@ -1,5 +1,3 @@
-// Plain WebAssembly instantiation without WASI so it works on server and client
-
 type DimExports = {
   memory: WebAssembly.Memory;
   dim_alloc: (n: number) => number;
