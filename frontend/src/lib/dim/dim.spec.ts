@@ -15,6 +15,7 @@ describe("dim wasm", () => {
     expect(dim.eval("18 m / 3 s")).toBe("6 m/s");
     expect(dim.eval("18 kJ / 3 kg")).toBe("6000 J/kg");
     expect(dim.eval("18 kJ / 3 kg as kJ/kg")).toBe("6 kJ/kg");
+    expect(dim.eval("0.5 kW * 36 s / 3 kg as kJ/kg")).toBe("6 kJ/kg");
   });
 
   it("evaluates identity", () => {
