@@ -26,6 +26,7 @@ describe("dim wasm", () => {
   it("defines constant and evaluates cast", () => {
     dim.defineConst("c", "299792458 m/s");
     expect(dim.eval("1 c as m/s")).toBe("299792458 m/s");
+    expect(dim.eval("10 m/s as c:scientific")).toBe("3.336e-8 c");
   });
 });
 
