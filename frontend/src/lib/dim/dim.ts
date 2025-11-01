@@ -329,10 +329,10 @@ export function checkUnitCompatibility(expr: string, target: string): boolean {
 }
 
 /**
- * Check if the dimensional compatibility of the expression is compatible with the target unit.
+ * Check if the expressions are dimensionally compatible.
  * @param expr - The expression to check.
  * @param target - The target expression to check against.
- * @returns True if the dimensional compatibility is compatible, false otherwise.
+ * @returns True if the expressions are dimensionally compatible, false otherwise.
  */
 export function checkDimensionalCompatibility(
   expr: string,
