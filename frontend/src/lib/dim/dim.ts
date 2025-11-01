@@ -312,3 +312,36 @@ export function clearAllConsts(): void {
   }
   runtime.dim_clear_all();
 }
+
+/**
+ * Check if the units of the expression are compatible with the target unit.
+ * @param expr - The expression to check.
+ * @param target - The target unit to check against.
+ * @returns True if the units are compatible, false otherwise.
+ */
+export function checkUnitCompatibility(expr: string, target: string): boolean {
+  try {
+    void evalDim(`${expr} + 1 ${target}`);
+    return true;
+  } catch {
+    return false;
+  }
+}
+
+/**
+ * Check if the dimensional compatibility of the expression is compatible with the target unit.
+ * @param expr - The expression to check.
+ * @param target - The target expression to check against.
+ * @returns True if the dimensional compatibility is compatible, false otherwise.
+ */
+export function checkDimensionalCompatibility(
+  expr: string,
+  target: string
+): boolean {
+  try {
+    void evalDim(`${expr} + ${target}`);
+    return true;
+  } catch {
+    return false;
+  }
+}
