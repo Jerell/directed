@@ -27,6 +27,7 @@ describe("dim wasm", () => {
 describe("unit compatibility (one expression, one unit)", () => {
   test("m -> other", () => {
     expect(checkUnitCompatibility("1 m", "m")).toBe(true);
+    expect(checkUnitCompatibility("1 mm", "mi")).toBe(true);
     expect(checkUnitCompatibility("1 m", "C")).toBe(false);
     expect(checkUnitCompatibility("1 m", "m/s")).toBe(false);
   });
@@ -35,6 +36,7 @@ describe("unit compatibility (one expression, one unit)", () => {
 describe("dimensional compatibility (two expressions)", () => {
   test("m -> other", () => {
     expect(checkDimensionalCompatibility("1 m", "1 m")).toBe(true);
+    expect(checkDimensionalCompatibility("1 km", "1 ft")).toBe(true);
     expect(checkDimensionalCompatibility("1 m", "1 C")).toBe(false);
     expect(checkDimensionalCompatibility("1 m", "1 m/s")).toBe(false);
   });
