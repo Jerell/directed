@@ -355,3 +355,14 @@ export function getBaseUnit(expr: string): string {
   const evaluated = evalDim(expr);
   return evaluated.split(" ")[1];
 }
+
+const dim = {
+  init: initDim,
+  eval: evalDim,
+  defineConst,
+  checkUnitCompatibility,
+  checkDimensionalCompatibility,
+  getBaseUnit,
+};
+
+export default dim;
