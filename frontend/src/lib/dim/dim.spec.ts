@@ -11,16 +11,18 @@ beforeAll(async () => {
 
 describe("dim wasm", () => {
   it("evaluates multiplication with units", () => {
-    expect(dim.eval("2 m * 3 m")).toBe("6.000 m²");
+    expect(dim.eval("2 m * 3 m")).toBe("6 m²");
   });
 
   it("evaluates identity", () => {
-    expect(dim.eval("1 m")).toBe("1.000 m");
+    expect(dim.eval("1 m")).toBe("1 m");
+    expect(dim.eval("0.1234567 m")).toBe("0.1234567 m");
+    expect(dim.eval("0.1234567 m as m:auto")).toBe("0.123 m");
   });
 
   it("defines constant and evaluates cast", () => {
     dim.defineConst("c", "299792458 m/s");
-    expect(dim.eval("1 c as m/s")).toBe("299792458.000 m/s");
+    expect(dim.eval("1 c as m/s")).toBe("299792458 m/s");
   });
 });
 
