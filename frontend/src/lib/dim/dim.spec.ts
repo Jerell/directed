@@ -10,8 +10,11 @@ beforeAll(async () => {
 });
 
 describe("dim wasm", () => {
-  it("evaluates multiplication with units", () => {
+  it("evaluates operations with units", () => {
     expect(dim.eval("2 m * 3 m")).toBe("6 m²");
+    expect(dim.eval("18 m / 3 s")).toBe("6 m/s");
+    expect(dim.eval("18 kJ / 3 kg")).toBe("6000 J/kg");
+    expect(dim.eval("18 kJ / 3 kg as kJ/kg")).toBe("6 kJ/kg");
   });
 
   it("evaluates identity", () => {
