@@ -5,6 +5,7 @@ import {
   defineConst,
   checkUnitCompatibility,
   checkDimensionalCompatibility,
+  getBaseUnit,
 } from "./dim";
 
 beforeAll(async () => {
@@ -39,5 +40,13 @@ describe("dimensional compatibility (two expressions)", () => {
     expect(checkDimensionalCompatibility("1 m", "1 m")).toBe(true);
     expect(checkDimensionalCompatibility("1 m", "1 C")).toBe(false);
     expect(checkDimensionalCompatibility("1 m", "1 m/s")).toBe(false);
+  });
+});
+
+describe("get base unit", () => {
+  test("m", () => {
+    expect(getBaseUnit("1 m")).toBe("m");
+    expect(getBaseUnit("1 yd")).toBe("m");
+    expect(getBaseUnit("1 km")).toBe("m");
   });
 });

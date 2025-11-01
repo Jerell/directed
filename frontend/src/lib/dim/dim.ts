@@ -345,3 +345,13 @@ export function checkDimensionalCompatibility(
     return false;
   }
 }
+
+/**
+ * Get the base unit of the expression.
+ * @param expr - The expression to get the base unit of.
+ * @returns The base unit of the expression.
+ */
+export function getBaseUnit(expr: string): string {
+  const evaluated = evalDim(expr);
+  return evaluated.split(" ")[1];
+}
